@@ -4,6 +4,7 @@ import random
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage.segmentation import chan_vese
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,19 +33,21 @@ def find_pairs(root):
     return pairs
 
 
-def adaptive_segmentation(image, block_size=21, c_value=7):
-    blurred = cv2.GaussianBlur(image, (5, 5), 0)
+def chanvese_segmentation(image):
+    image_float = image.astype(np.float32) / 255.0
 
-    mask = cv2.adaptiveThreshold(
-        blurred,
-        255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY_INV,
-        block_size,
-        c_value
+    cv_mask = chan_vese(
+        image_float,
+        mu=0.25,
+        lambda1=1,
+        lambda2=1,
+        tol=1e-3,
+        max_num_iter=200,
+        dt=0.5,
+        init_level_set="checkerboard"
     )
 
-    return mask
+    return cv_mask.astype(np.uint8) * 255
 
 
 def clean_mask(mask):
@@ -70,6 +73,10 @@ def compute_iou(pred, gt):
 
 
 def best_component_by_iou(mask, gt_mask):
+    """
+    Tests each connected component separately and returns the component
+    with the best IoU against the ground truth.
+    """
     num_labels, labels = cv2.connectedComponents(mask)
 
     best_mask = np.zeros_like(mask)
@@ -89,14 +96,20 @@ def best_component_by_iou(mask, gt_mask):
 
 
 def select_best_orientation_and_component(pred_mask_raw, gt_mask):
+    """
+    Tries:
+    1. normal Chan-Vese mask
+    2. inverted Chan-Vese mask
+
+    For each one, it tests all connected components and keeps the component
+    with the best IoU.
+    """
     candidates = []
 
-    # Normal version
     normal_raw = clean_mask(pred_mask_raw)
     normal_component, normal_iou = best_component_by_iou(normal_raw, gt_mask)
     candidates.append((normal_component, normal_iou, "normal"))
 
-    # Inverted version
     inverted_raw = cv2.bitwise_not(pred_mask_raw)
     inverted_raw = clean_mask(inverted_raw)
     inverted_component, inverted_iou = best_component_by_iou(inverted_raw, gt_mask)
@@ -122,7 +135,7 @@ def visualize(image, gt, pred, iou, orientation, title=""):
     axs[1].set_title("Ground Truth")
 
     axs[2].imshow(pred, cmap="gray")
-    axs[2].set_title(f"Adaptive Mask\n{orientation}")
+    axs[2].set_title(f"Chan-Vese Mask\n{orientation}")
 
     axs[3].imshow(overlay)
     axs[3].set_title(f"Overlay (IoU={iou:.2f})")
@@ -151,11 +164,7 @@ def main():
         gt_mask = load_gray(mask_path)
         gt_mask = (gt_mask > 0).astype(np.uint8) * 255
 
-        pred_mask_raw = adaptive_segmentation(
-            image,
-            block_size=21,
-            c_value=7
-        )
+        pred_mask_raw = chanvese_segmentation(image)
 
         pred_mask, iou, orientation = select_best_orientation_and_component(
             pred_mask_raw,

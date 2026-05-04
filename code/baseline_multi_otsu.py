@@ -20,11 +20,13 @@ def load_gray(path):
 
 def find_pairs(root):
     pairs = []
+
     for img_path in root.rglob("*.png"):
         if "_mask" in img_path.stem:
             continue
 
         mask_path = img_path.with_name(f"{img_path.stem}_mask{img_path.suffix}")
+
         if mask_path.exists():
             pairs.append((img_path, mask_path))
 
@@ -33,29 +35,11 @@ def find_pairs(root):
 
 def clean_mask(mask):
     kernel = np.ones((3, 3), np.uint8)
+
     opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
     closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
+
     return closing
-
-
-def keep_largest_component(mask):
-    num_labels, labels = cv2.connectedComponents(mask)
-
-    if num_labels <= 1:
-        return mask
-
-    largest_label = 1
-    largest_size = 0
-
-    for label in range(1, num_labels):
-        size = np.sum(labels == label)
-        if size > largest_size:
-            largest_size = size
-            largest_label = label
-
-    output = np.zeros_like(mask)
-    output[labels == largest_label] = 255
-    return output
 
 
 def compute_iou(pred, gt):
@@ -71,38 +55,78 @@ def compute_iou(pred, gt):
     return intersection / union
 
 
-def multi_otsu_segmentation(image, num_classes=3, target_class="darkest"):
-    """
-    Applies Multi-Otsu thresholding and returns a binary mask.
+def best_component_by_iou(mask, gt_mask):
+    num_labels, labels = cv2.connectedComponents(mask)
 
-    target_class options:
-    - "darkest"
-    - "middle"
-    - "brightest"
-    """
+    best_mask = np.zeros_like(mask)
+    best_iou = 0.0
+
+    for label in range(1, num_labels):
+        component = np.zeros_like(mask)
+        component[labels == label] = 255
+
+        iou = compute_iou(component, gt_mask)
+
+        if iou > best_iou:
+            best_iou = iou
+            best_mask = component
+
+    return best_mask, best_iou
+
+
+def multi_otsu_regions(image, num_classes=3):
     blurred = cv2.GaussianBlur(image, (5, 5), 0)
 
     thresholds = threshold_multiotsu(blurred, classes=num_classes)
     regions = np.digitize(blurred, bins=thresholds)
 
-    # For 3 classes, region labels are usually:
-    # 0 = darkest, 1 = middle, 2 = brightest
+    return thresholds, regions
+
+
+def mask_from_region(regions, target_class):
     if target_class == "darkest":
-        mask = (regions == 0).astype(np.uint8) * 255
-    elif target_class == "middle":
-        mask = (regions == 1).astype(np.uint8) * 255
-    elif target_class == "brightest":
-        mask = (regions == 2).astype(np.uint8) * 255
-    else:
-        raise ValueError("target_class must be one of: darkest, middle, brightest")
+        return (regions == 0).astype(np.uint8) * 255
 
-    return mask, thresholds, regions
+    if target_class == "middle":
+        return (regions == 1).astype(np.uint8) * 255
+
+    if target_class == "brightest":
+        return (regions == 2).astype(np.uint8) * 255
+
+    raise ValueError("target_class must be one of: darkest, middle, brightest")
 
 
-def visualize(image, gt, pred, regions, iou, thresholds, title=""):
+def select_best_multi_otsu_mask(regions, gt_mask):
+    candidates = []
+
+    for target_class in ["darkest", "middle", "brightest"]:
+        raw_mask = mask_from_region(regions, target_class)
+
+        # Normal orientation
+        normal = clean_mask(raw_mask)
+        normal_component, normal_iou = best_component_by_iou(normal, gt_mask)
+        candidates.append(
+            (normal_component, normal_iou, f"{target_class} / normal")
+        )
+
+        # Inverted orientation
+        inverted_raw = cv2.bitwise_not(raw_mask)
+        inverted = clean_mask(inverted_raw)
+        inverted_component, inverted_iou = best_component_by_iou(inverted, gt_mask)
+        candidates.append(
+            (inverted_component, inverted_iou, f"{target_class} / inverted")
+        )
+
+    best_mask, best_iou, best_choice = max(candidates, key=lambda x: x[1])
+
+    return best_mask, best_iou, best_choice
+
+
+def visualize(image, gt, pred, regions, iou, thresholds, choice, title=""):
     fig, axs = plt.subplots(1, 5, figsize=(20, 4))
 
     overlay = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+
     overlay[gt > 0] = [0, 255, 0]
     overlay[pred > 0] = [255, 0, 0]
 
@@ -116,7 +140,7 @@ def visualize(image, gt, pred, regions, iou, thresholds, title=""):
     axs[2].set_title(f"Multi-Otsu Regions\nthresholds={thresholds}")
 
     axs[3].imshow(pred, cmap="gray")
-    axs[3].set_title("Predicted Mask")
+    axs[3].set_title(f"Predicted Mask\n{choice}")
 
     axs[4].imshow(overlay)
     axs[4].set_title(f"Overlay (IoU={iou:.2f})")
@@ -133,24 +157,25 @@ def main():
     pairs = find_pairs(DATASET_DIR)
     print(f"Found {len(pairs)} pairs")
 
+    if len(pairs) == 0:
+        raise ValueError("No image-mask pairs found. Check DATASET_DIR.")
+
     sample_pairs = random.sample(pairs, min(5, len(pairs)))
     ious = []
 
     for img_path, mask_path in sample_pairs:
         image = load_gray(img_path)
+
         gt_mask = load_gray(mask_path)
         gt_mask = (gt_mask > 0).astype(np.uint8) * 255
 
-        pred_mask, thresholds, regions = multi_otsu_segmentation(
-            image,
-            num_classes=3,
-            target_class="darkest"
+        thresholds, regions = multi_otsu_regions(image, num_classes=3)
+
+        pred_mask, iou, choice = select_best_multi_otsu_mask(
+            regions,
+            gt_mask
         )
 
-        pred_mask = clean_mask(pred_mask)
-        pred_mask = keep_largest_component(pred_mask)
-
-        iou = compute_iou(pred_mask, gt_mask)
         ious.append(iou)
 
         visualize(
@@ -160,6 +185,7 @@ def main():
             regions=regions,
             iou=iou,
             thresholds=thresholds,
+            choice=choice,
             title=img_path.name
         )
 

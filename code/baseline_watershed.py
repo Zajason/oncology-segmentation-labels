@@ -4,6 +4,9 @@ import random
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage.segmentation import watershed
+from skimage.feature import peak_local_max
+from scipy import ndimage as ndi
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,21 +33,6 @@ def find_pairs(root):
             pairs.append((img_path, mask_path))
 
     return pairs
-
-
-def adaptive_segmentation(image, block_size=21, c_value=7):
-    blurred = cv2.GaussianBlur(image, (5, 5), 0)
-
-    mask = cv2.adaptiveThreshold(
-        blurred,
-        255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY_INV,
-        block_size,
-        c_value
-    )
-
-    return mask
 
 
 def clean_mask(mask):
@@ -88,6 +76,60 @@ def best_component_by_iou(mask, gt_mask):
     return best_mask, best_iou
 
 
+def watershed_segmentation(image):
+    """
+    Watershed baseline.
+
+    Steps:
+    1. Smooth image
+    2. Create rough foreground using Otsu
+    3. Compute distance transform
+    4. Use local maxima as markers
+    5. Run watershed
+    """
+
+    blurred = cv2.GaussianBlur(image, (5, 5), 0)
+
+    # Lesions in BUSI are often darker, so use inverse Otsu as rough foreground
+    _, rough_mask = cv2.threshold(
+        blurred,
+        0,
+        255,
+        cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
+    )
+
+    rough_mask = clean_mask(rough_mask)
+
+    # Distance transform: pixels deeper inside objects have larger values
+    distance = ndi.distance_transform_edt(rough_mask > 0)
+
+    # Find marker points inside candidate objects
+    coords = peak_local_max(
+        distance,
+        min_distance=10,
+        labels=rough_mask > 0
+    )
+
+    markers = np.zeros_like(image, dtype=np.int32)
+
+    for idx, (row, col) in enumerate(coords, start=1):
+        markers[row, col] = idx
+
+    markers = ndi.label(markers > 0)[0]
+
+    # Watershed on negative distance grows from object centers outward
+    labels = watershed(
+        -distance,
+        markers,
+        mask=rough_mask > 0
+    )
+
+    # Convert all watershed regions into one binary mask
+    mask = (labels > 0).astype(np.uint8) * 255
+
+    return mask, labels, rough_mask
+
+
 def select_best_orientation_and_component(pred_mask_raw, gt_mask):
     candidates = []
 
@@ -107,13 +149,13 @@ def select_best_orientation_and_component(pred_mask_raw, gt_mask):
     return best_mask, best_iou, orientation
 
 
-def visualize(image, gt, pred, iou, orientation, title=""):
+def visualize(image, gt, pred, labels, rough_mask, iou, orientation, title=""):
     overlay = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
 
     overlay[gt > 0] = [0, 255, 0]
     overlay[pred > 0] = [255, 0, 0]
 
-    fig, axs = plt.subplots(1, 4, figsize=(16, 4))
+    fig, axs = plt.subplots(1, 6, figsize=(24, 4))
 
     axs[0].imshow(image, cmap="gray")
     axs[0].set_title("Image")
@@ -121,11 +163,17 @@ def visualize(image, gt, pred, iou, orientation, title=""):
     axs[1].imshow(gt, cmap="gray")
     axs[1].set_title("Ground Truth")
 
-    axs[2].imshow(pred, cmap="gray")
-    axs[2].set_title(f"Adaptive Mask\n{orientation}")
+    axs[2].imshow(rough_mask, cmap="gray")
+    axs[2].set_title("Rough Foreground")
 
-    axs[3].imshow(overlay)
-    axs[3].set_title(f"Overlay (IoU={iou:.2f})")
+    axs[3].imshow(labels, cmap="nipy_spectral")
+    axs[3].set_title("Watershed Labels")
+
+    axs[4].imshow(pred, cmap="gray")
+    axs[4].set_title(f"Final Mask\n{orientation}")
+
+    axs[5].imshow(overlay)
+    axs[5].set_title(f"Overlay (IoU={iou:.2f})")
 
     for ax in axs:
         ax.axis("off")
@@ -151,11 +199,7 @@ def main():
         gt_mask = load_gray(mask_path)
         gt_mask = (gt_mask > 0).astype(np.uint8) * 255
 
-        pred_mask_raw = adaptive_segmentation(
-            image,
-            block_size=21,
-            c_value=7
-        )
+        pred_mask_raw, labels, rough_mask = watershed_segmentation(image)
 
         pred_mask, iou, orientation = select_best_orientation_and_component(
             pred_mask_raw,
@@ -168,6 +212,8 @@ def main():
             image=image,
             gt=gt_mask,
             pred=pred_mask,
+            labels=labels,
+            rough_mask=rough_mask,
             iou=iou,
             orientation=orientation,
             title=img_path.name

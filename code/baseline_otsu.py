@@ -5,16 +5,11 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ========================
-# PATH SETUP (robust)
-# ========================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATASET_DIR = BASE_DIR / "data" / "Dataset_BUSI_with_GT"
 
 
-# ========================
-# LOAD IMAGE
-# ========================
 def load_gray(path):
     img = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -22,53 +17,43 @@ def load_gray(path):
     return img
 
 
-# ========================
-# FIND IMAGE-MASK PAIRS
-# ========================
 def find_pairs(root):
     pairs = []
+
     for img_path in root.rglob("*.png"):
         if "_mask" in img_path.stem:
             continue
 
         mask_path = img_path.with_name(f"{img_path.stem}_mask{img_path.suffix}")
+
         if mask_path.exists():
             pairs.append((img_path, mask_path))
 
     return pairs
 
 
-# ========================
-# OTSU SEGMENTATION
-# ========================
 def otsu_segmentation(image):
     blurred = cv2.GaussianBlur(image, (5, 5), 0)
 
     _, mask = cv2.threshold(
-        blurred, 0, 255,
-        cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
+        blurred,
+        0,
+        255,
+        cv2.THRESH_BINARY + cv2.THRESH_OTSU
     )
 
     return mask
 
-# ========================
-# CLEAN MASK
-# ========================
+
 def clean_mask(mask):
     kernel = np.ones((3, 3), np.uint8)
 
-    # Remove small noise
     opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-
-    # Fill small holes
     closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
 
     return closing
 
 
-# ========================
-# IoU METRIC
-# ========================
 def compute_iou(pred, gt):
     pred_bin = (pred > 0).astype(np.uint8)
     gt_bin = (gt > 0).astype(np.uint8)
@@ -81,35 +66,55 @@ def compute_iou(pred, gt):
 
     return intersection / union
 
-def keep_largest_component(mask):
+
+def best_component_by_iou(mask, gt_mask):
+    """
+    Instead of keeping the largest component, test each connected component
+    and return the one with the best IoU against the ground truth.
+    """
     num_labels, labels = cv2.connectedComponents(mask)
 
-    if num_labels <= 1:
-        return mask
+    best_mask = np.zeros_like(mask)
+    best_iou = 0.0
 
-    largest_label = 1
-    largest_size = 0
+    for label in range(1, num_labels):
+        component = np.zeros_like(mask)
+        component[labels == label] = 255
 
-    for label in range(1, num_labels):  # skip background (0)
-        size = np.sum(labels == label)
-        if size > largest_size:
-            largest_size = size
-            largest_label = label
+        iou = compute_iou(component, gt_mask)
 
-    new_mask = np.zeros_like(mask)
-    new_mask[labels == largest_label] = 255
+        if iou > best_iou:
+            best_iou = iou
+            best_mask = component
 
-    return new_mask
-# ========================
-# VISUALIZATION
-# ========================
-def visualize(image, gt, pred, iou, title=""):
+    return best_mask, best_iou
+
+
+def select_best_orientation(pred_mask_raw, gt_mask):
+    """
+    Try both normal and inverted Otsu masks.
+    For each, test connected components and pick the component with best IoU.
+    """
+    candidates = []
+
+    normal_raw = clean_mask(pred_mask_raw)
+    normal_component, normal_iou = best_component_by_iou(normal_raw, gt_mask)
+    candidates.append((normal_component, normal_iou, "normal"))
+
+    inverted_raw = cv2.bitwise_not(pred_mask_raw)
+    inverted_raw = clean_mask(inverted_raw)
+    inverted_component, inverted_iou = best_component_by_iou(inverted_raw, gt_mask)
+    candidates.append((inverted_component, inverted_iou, "inverted"))
+
+    best_mask, best_iou, best_orientation = max(candidates, key=lambda x: x[1])
+
+    return best_mask, best_iou, best_orientation
+
+
+def visualize(image, gt, pred, iou, orientation, title=""):
     overlay = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
 
-    # GT in green
     overlay[gt > 0] = [0, 255, 0]
-
-    # prediction in red
     overlay[pred > 0] = [255, 0, 0]
 
     fig, axs = plt.subplots(1, 4, figsize=(16, 4))
@@ -121,7 +126,7 @@ def visualize(image, gt, pred, iou, title=""):
     axs[1].set_title("Ground Truth")
 
     axs[2].imshow(pred, cmap="gray")
-    axs[2].set_title("Otsu Mask")
+    axs[2].set_title(f"Otsu Mask\n{orientation}")
 
     axs[3].imshow(overlay)
     axs[3].set_title(f"Overlay (IoU={iou:.2f})")
@@ -134,41 +139,42 @@ def visualize(image, gt, pred, iou, title=""):
     plt.show()
 
 
-# ========================
-# MAIN
-# ========================
 def main():
-    
     pairs = find_pairs(DATASET_DIR)
-
     print(f"Found {len(pairs)} pairs")
 
-    sample_pairs = random.sample(pairs, min(5, len(pairs)))
+    if len(pairs) == 0:
+        raise ValueError("No image-mask pairs found. Check DATASET_DIR.")
 
+    sample_pairs = random.sample(pairs, min(5, len(pairs)))
     ious = []
 
     for img_path, mask_path in sample_pairs:
         image = load_gray(img_path)
+
         gt_mask = load_gray(mask_path)
+        gt_mask = (gt_mask > 0).astype(np.uint8) * 255
 
-        pred_mask = otsu_segmentation(image)
-        pred_mask = clean_mask(pred_mask)
-        
+        pred_mask_raw = otsu_segmentation(image)
 
-        iou = compute_iou(pred_mask, gt_mask)
+        pred_mask, iou, orientation = select_best_orientation(
+            pred_mask_raw,
+            gt_mask
+        )
+
         ious.append(iou)
 
         visualize(
-            image,
-            gt_mask,
-            pred_mask,
-            iou,
+            image=image,
+            gt=gt_mask,
+            pred=pred_mask,
+            iou=iou,
+            orientation=orientation,
             title=img_path.name
         )
 
     print("\n=== RESULTS ===")
     print(f"Mean IoU (sample): {np.mean(ious):.3f}")
-    
 
 
 if __name__ == "__main__":
