@@ -1,2 +1,5 @@
 /.venv
 /data
+/.kaggle
+/.matplotlib
+/.pycache

@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+busi,random_walker,10,0.364752,0.141074,0.231736,0.100961,0.184872

@@ -1,0 +1,301 @@
+dataset,image,mask,modality,iou,choice
+BUSI,benign/benign (201).png,benign/benign (201)_mask.png,none,0.185756,class_1_normal
+BUSI,benign/benign (121).png,benign/benign (121)_mask.png,none,0.077708,class_0_normal
+BUSI,benign/benign (352).png,benign/benign (352)_mask.png,none,0.859762,class_2_inverted
+BUSI,benign/benign (324).png,benign/benign (324)_mask.png,none,0.558346,class_0_normal
+BUSI,benign/benign (304).png,benign/benign (304)_mask.png,none,0.215892,class_1_normal
+BUSI,benign/benign (227).png,benign/benign (227)_mask.png,none,0.452122,class_0_normal
+BUSI,benign/benign (193).png,benign/benign (193)_mask.png,none,0.828134,class_0_normal
+BUSI,malignant/malignant (208).png,malignant/malignant (208)_mask.png,none,0.694814,class_0_normal
+BUSI,benign/benign (18).png,benign/benign (18)_mask.png,none,0.340364,class_0_normal
+BUSI,malignant/malignant (60).png,malignant/malignant (60)_mask.png,none,0.242060,class_0_normal
+BUSI,benign/benign (95).png,benign/benign (95)_mask.png,none,0.790141,class_0_normal
+BUSI,benign/benign (128).png,benign/benign (128)_mask.png,none,0.024711,class_0_normal
+BUSI,benign/benign (126).png,benign/benign (126)_mask.png,none,0.703381,class_0_normal
+BUSI,benign/benign (185).png,benign/benign (185)_mask.png,none,0.187706,class_0_normal
+BUSI,benign/benign (30).png,benign/benign (30)_mask.png,none,0.025460,class_0_normal
+BUSI,benign/benign (313).png,benign/benign (313)_mask.png,none,0.363831,class_1_normal
+BUSI,malignant/malignant (171).png,malignant/malignant (171)_mask.png,none,0.162376,class_1_normal
+BUSI,malignant/malignant (71).png,malignant/malignant (71)_mask.png,none,0.298540,class_2_inverted
+BUSI,benign/benign (123).png,benign/benign (123)_mask.png,none,0.091879,class_0_normal
+BUSI,malignant/malignant (33).png,malignant/malignant (33)_mask.png,none,0.335892,class_0_normal
+BUSI,benign/benign (282).png,benign/benign (282)_mask.png,none,0.107751,class_1_normal
+BUSI,malignant/malignant (92).png,malignant/malignant (92)_mask.png,none,0.416614,class_0_normal
+BUSI,benign/benign (92).png,benign/benign (92)_mask.png,none,0.688885,class_1_inverted
+BUSI,benign/benign (301).png,benign/benign (301)_mask.png,none,0.623504,class_0_normal
+BUSI,malignant/malignant (119).png,malignant/malignant (119)_mask.png,none,0.155392,class_1_inverted
+BUSI,malignant/malignant (6).png,malignant/malignant (6)_mask.png,none,0.117957,class_1_normal
+BUSI,benign/benign (355).png,benign/benign (355)_mask.png,none,0.716727,class_0_normal
+BUSI,benign/benign (104).png,benign/benign (104)_mask.png,none,0.866868,class_2_inverted
+BUSI,benign/benign (246).png,benign/benign (246)_mask.png,none,0.632718,class_0_normal
+BUSI,malignant/malignant (9).png,malignant/malignant (9)_mask.png,none,0.124451,class_1_normal
+BUSI,benign/benign (412).png,benign/benign (412)_mask.png,none,0.495540,class_2_inverted
+BUSI,malignant/malignant (75).png,malignant/malignant (75)_mask.png,none,0.557512,class_1_inverted
+BUSI,benign/benign (242).png,benign/benign (242)_mask.png,none,0.186202,class_0_normal
+BUSI,benign/benign (298).png,benign/benign (298)_mask.png,none,0.219490,class_2_normal
+BUSI,benign/benign (409).png,benign/benign (409)_mask.png,none,0.561658,class_1_normal
+BUSI,malignant/malignant (93).png,malignant/malignant (93)_mask.png,none,0.322647,class_0_normal
+BUSI,benign/benign (184).png,benign/benign (184)_mask.png,none,0.182567,class_1_normal
+BUSI,benign/benign (56).png,benign/benign (56)_mask.png,none,0.759121,class_0_normal
+BUSI,benign/benign (189).png,benign/benign (189)_mask.png,none,0.131835,class_0_normal
+BUSI,benign/benign (43).png,benign/benign (43)_mask.png,none,0.447966,class_0_normal
+BUSI,benign/benign (416).png,benign/benign (416)_mask.png,none,0.172898,class_1_inverted
+BUSI,benign/benign (342).png,benign/benign (342)_mask.png,none,0.406409,class_0_normal
+BUSI,benign/benign (139).png,benign/benign (139)_mask.png,none,0.094179,class_0_normal
+BUSI,malignant/malignant (129).png,malignant/malignant (129)_mask.png,none,0.444949,class_2_inverted
+BUSI,malignant/malignant (20).png,malignant/malignant (20)_mask.png,none,0.294924,class_0_normal
+BUSI,benign/benign (213).png,benign/benign (213)_mask.png,none,0.074779,class_0_inverted
+BUSI,benign/benign (54).png,benign/benign (54)_mask.png,none,0.751216,class_0_normal
+BUSI,benign/benign (171).png,benign/benign (171)_mask.png,none,0.599303,class_0_normal
+BUSI,malignant/malignant (25).png,malignant/malignant (25)_mask.png,none,0.418586,class_2_inverted
+BUSI,benign/benign (37).png,benign/benign (37)_mask.png,none,0.024211,class_0_normal
+BUSI,benign/benign (432).png,benign/benign (432)_mask.png,none,0.805709,class_0_normal
+BUSI,malignant/malignant (49).png,malignant/malignant (49)_mask.png,none,0.101734,class_1_normal
+BUSI,benign/benign (276).png,benign/benign (276)_mask.png,none,0.250113,class_1_normal
+BUSI,benign/benign (163).png,benign/benign (163)_mask.png,none,0.500164,class_0_normal
+BUSI,benign/benign (140).png,benign/benign (140)_mask.png,none,0.372975,class_0_normal
+BUSI,benign/benign (309).png,benign/benign (309)_mask.png,none,0.289182,class_1_inverted
+BUSI,benign/benign (366).png,benign/benign (366)_mask.png,none,0.348763,class_0_normal
+BUSI,benign/benign (172).png,benign/benign (172)_mask.png,none,0.061167,class_0_normal
+BUSI,malignant/malignant (85).png,malignant/malignant (85)_mask.png,none,0.412428,class_0_normal
+BUSI,benign/benign (192).png,benign/benign (192)_mask.png,none,0.677722,class_0_normal
+BUSI,malignant/malignant (65).png,malignant/malignant (65)_mask.png,none,0.625772,class_0_normal
+BUSI,malignant/malignant (70).png,malignant/malignant (70)_mask.png,none,0.069668,class_1_normal
+BUSI,malignant/malignant (123).png,malignant/malignant (123)_mask.png,none,0.205805,class_2_inverted
+BUSI,benign/benign (435).png,benign/benign (435)_mask.png,none,0.565195,class_0_normal
+BUSI,benign/benign (249).png,benign/benign (249)_mask.png,none,0.111245,class_1_normal
+BUSI,benign/benign (47).png,benign/benign (47)_mask.png,none,0.802459,class_2_inverted
+BUSI,benign/benign (426).png,benign/benign (426)_mask.png,none,0.446020,class_0_inverted
+BUSI,benign/benign (292).png,benign/benign (292)_mask.png,none,0.094897,class_1_normal
+BUSI,benign/benign (345).png,benign/benign (345)_mask.png,none,0.070334,class_0_normal
+BUSI,benign/benign (165).png,benign/benign (165)_mask.png,none,0.564655,class_0_normal
+BUSI,benign/benign (257).png,benign/benign (257)_mask.png,none,0.183650,class_1_inverted
+BUSI,malignant/malignant (198).png,malignant/malignant (198)_mask.png,none,0.337173,class_2_normal
+BUSI,malignant/malignant (96).png,malignant/malignant (96)_mask.png,none,0.296598,class_1_normal
+BUSI,benign/benign (25).png,benign/benign (25)_mask.png,none,0.768428,class_0_normal
+BUSI,malignant/malignant (131).png,malignant/malignant (131)_mask.png,none,0.077169,class_0_normal
+BUSI,benign/benign (55).png,benign/benign (55)_mask.png,none,0.047811,class_0_normal
+BUSI,benign/benign (348).png,benign/benign (348)_mask.png,none,0.832706,class_2_inverted
+BUSI,benign/benign (300).png,benign/benign (300)_mask.png,none,0.174564,class_0_normal
+BUSI,benign/benign (399).png,benign/benign (399)_mask.png,none,0.312237,class_0_normal
+BUSI,benign/benign (150).png,benign/benign (150)_mask.png,none,0.828954,class_0_normal
+BUSI,benign/benign (31).png,benign/benign (31)_mask.png,none,0.778805,class_0_normal
+BUSI,malignant/malignant (89).png,malignant/malignant (89)_mask.png,none,0.444961,class_1_normal
+BUSI,benign/benign (390).png,benign/benign (390)_mask.png,none,0.684750,class_2_inverted
+BUSI,benign/benign (75).png,benign/benign (75)_mask.png,none,0.234550,class_0_normal
+BUSI,benign/benign (346).png,benign/benign (346)_mask.png,none,0.699065,class_0_normal
+BUSI,benign/benign (16).png,benign/benign (16)_mask.png,none,0.747837,class_0_normal
+BUSI,benign/benign (294).png,benign/benign (294)_mask.png,none,0.121199,class_0_normal
+BUSI,benign/benign (39).png,benign/benign (39)_mask.png,none,0.049232,class_0_normal
+BUSI,benign/benign (295).png,benign/benign (295)_mask.png,none,0.776598,class_0_normal
+BUSI,malignant/malignant (166).png,malignant/malignant (166)_mask.png,none,0.367191,class_0_normal
+BUSI,benign/benign (70).png,benign/benign (70)_mask.png,none,0.794218,class_0_normal
+BUSI,malignant/malignant (128).png,malignant/malignant (128)_mask.png,none,0.400636,class_2_inverted
+BUSI,benign/benign (230).png,benign/benign (230)_mask.png,none,0.606182,class_1_normal
+BUSI,benign/benign (343).png,benign/benign (343)_mask.png,none,0.180107,class_0_normal
+BUSI,malignant/malignant (94).png,malignant/malignant (94)_mask.png,none,0.417359,class_0_normal
+BUSI,benign/benign (326).png,benign/benign (326)_mask.png,none,0.923167,class_0_normal
+BUSI,benign/benign (341).png,benign/benign (341)_mask.png,none,0.309524,class_0_normal
+BUSI,malignant/malignant (10).png,malignant/malignant (10)_mask.png,none,0.614458,class_0_normal
+BUSI,benign/benign (73).png,benign/benign (73)_mask.png,none,0.761238,class_1_inverted
+BUSI,malignant/malignant (53).png,malignant/malignant (53)_mask.png,none,0.549020,class_1_normal
+BraTS2020,volume_104_slice_104.h5,volume_104_slice_104.h5,modality_0,0.902027,class_2_normal
+BraTS2020,volume_104_slice_104.h5,volume_104_slice_104.h5,modality_3,0.781532,class_2_normal
+BraTS2020,volume_37_slice_51.h5,volume_37_slice_51.h5,modality_0,0.899628,class_2_normal
+BraTS2020,volume_37_slice_51.h5,volume_37_slice_51.h5,modality_3,0.426450,class_2_normal
+BraTS2020,volume_286_slice_73.h5,volume_286_slice_73.h5,modality_0,0.033287,class_2_normal
+BraTS2020,volume_286_slice_73.h5,volume_286_slice_73.h5,modality_3,0.284783,class_1_inverted
+BraTS2020,volume_250_slice_40.h5,volume_250_slice_40.h5,modality_0,0.827938,class_2_normal
+BraTS2020,volume_250_slice_40.h5,volume_250_slice_40.h5,modality_3,0.524699,class_2_normal
+BraTS2020,volume_262_slice_51.h5,volume_262_slice_51.h5,modality_0,0.011407,class_2_normal
+BraTS2020,volume_262_slice_51.h5,volume_262_slice_51.h5,modality_3,0.028596,class_2_normal
+BraTS2020,volume_202_slice_102.h5,volume_202_slice_102.h5,modality_0,0.001809,class_2_normal
+BraTS2020,volume_202_slice_102.h5,volume_202_slice_102.h5,modality_3,0.200000,class_1_inverted
+BraTS2020,volume_186_slice_96.h5,volume_186_slice_96.h5,modality_0,0.078752,class_2_normal
+BraTS2020,volume_186_slice_96.h5,volume_186_slice_96.h5,modality_3,0.735326,class_1_inverted
+BraTS2020,volume_149_slice_82.h5,volume_149_slice_82.h5,modality_0,0.750712,class_2_normal
+BraTS2020,volume_149_slice_82.h5,volume_149_slice_82.h5,modality_3,0.801102,class_2_normal
+BraTS2020,volume_205_slice_106.h5,volume_205_slice_106.h5,modality_0,0.020052,class_2_normal
+BraTS2020,volume_205_slice_106.h5,volume_205_slice_106.h5,modality_3,0.327138,class_2_normal
+BraTS2020,volume_326_slice_87.h5,volume_326_slice_87.h5,modality_0,0.839534,class_1_inverted
+BraTS2020,volume_326_slice_87.h5,volume_326_slice_87.h5,modality_3,0.888938,class_1_inverted
+BraTS2020,volume_62_slice_70.h5,volume_62_slice_70.h5,modality_0,0.456271,class_2_normal
+BraTS2020,volume_62_slice_70.h5,volume_62_slice_70.h5,modality_3,0.545529,class_1_inverted
+BraTS2020,volume_366_slice_99.h5,volume_366_slice_99.h5,modality_0,0.730684,class_2_normal
+BraTS2020,volume_366_slice_99.h5,volume_366_slice_99.h5,modality_3,0.521148,class_1_inverted
+BraTS2020,volume_157_slice_126.h5,volume_157_slice_126.h5,modality_0,0.133333,class_2_normal
+BraTS2020,volume_157_slice_126.h5,volume_157_slice_126.h5,modality_3,0.399118,class_2_normal
+BraTS2020,volume_7_slice_37.h5,volume_7_slice_37.h5,modality_0,0.333333,class_2_normal
+BraTS2020,volume_7_slice_37.h5,volume_7_slice_37.h5,modality_3,0.235294,class_1_normal
+BraTS2020,volume_67_slice_124.h5,volume_67_slice_124.h5,modality_0,0.525499,class_2_normal
+BraTS2020,volume_67_slice_124.h5,volume_67_slice_124.h5,modality_3,0.488426,class_2_normal
+BraTS2020,volume_223_slice_92.h5,volume_223_slice_92.h5,modality_0,0.929795,class_2_normal
+BraTS2020,volume_223_slice_92.h5,volume_223_slice_92.h5,modality_3,0.737099,class_2_normal
+BraTS2020,volume_251_slice_102.h5,volume_251_slice_102.h5,modality_0,0.825415,class_2_normal
+BraTS2020,volume_251_slice_102.h5,volume_251_slice_102.h5,modality_3,0.740275,class_2_normal
+BraTS2020,volume_275_slice_52.h5,volume_275_slice_52.h5,modality_0,0.117344,class_2_normal
+BraTS2020,volume_275_slice_52.h5,volume_275_slice_52.h5,modality_3,0.775540,class_2_normal
+BraTS2020,volume_259_slice_108.h5,volume_259_slice_108.h5,modality_0,0.874502,class_2_normal
+BraTS2020,volume_259_slice_108.h5,volume_259_slice_108.h5,modality_3,0.803906,class_2_normal
+BraTS2020,volume_143_slice_84.h5,volume_143_slice_84.h5,modality_0,0.837405,class_2_normal
+BraTS2020,volume_143_slice_84.h5,volume_143_slice_84.h5,modality_3,0.592765,class_1_inverted
+BraTS2020,volume_120_slice_117.h5,volume_120_slice_117.h5,modality_0,0.839375,class_1_inverted
+BraTS2020,volume_120_slice_117.h5,volume_120_slice_117.h5,modality_3,0.762184,class_1_inverted
+BraTS2020,volume_166_slice_75.h5,volume_166_slice_75.h5,modality_0,0.798885,class_2_normal
+BraTS2020,volume_166_slice_75.h5,volume_166_slice_75.h5,modality_3,0.773859,class_2_normal
+BraTS2020,volume_191_slice_83.h5,volume_191_slice_83.h5,modality_0,0.929366,class_2_normal
+BraTS2020,volume_191_slice_83.h5,volume_191_slice_83.h5,modality_3,0.819462,class_2_normal
+BraTS2020,volume_28_slice_35.h5,volume_28_slice_35.h5,modality_0,0.005083,class_2_normal
+BraTS2020,volume_28_slice_35.h5,volume_28_slice_35.h5,modality_3,0.010989,class_1_normal
+BraTS2020,volume_268_slice_52.h5,volume_268_slice_52.h5,modality_0,0.094598,class_2_normal
+BraTS2020,volume_268_slice_52.h5,volume_268_slice_52.h5,modality_3,0.212519,class_2_normal
+BraTS2020,volume_130_slice_44.h5,volume_130_slice_44.h5,modality_0,0.577159,class_2_normal
+BraTS2020,volume_130_slice_44.h5,volume_130_slice_44.h5,modality_3,0.764658,class_2_normal
+BraTS2020,volume_98_slice_79.h5,volume_98_slice_79.h5,modality_0,0.933533,class_1_inverted
+BraTS2020,volume_98_slice_79.h5,volume_98_slice_79.h5,modality_3,0.844503,class_1_inverted
+BraTS2020,volume_160_slice_79.h5,volume_160_slice_79.h5,modality_0,0.802114,class_2_normal
+BraTS2020,volume_160_slice_79.h5,volume_160_slice_79.h5,modality_3,0.626457,class_1_inverted
+BraTS2020,volume_245_slice_75.h5,volume_245_slice_75.h5,modality_0,0.443761,class_1_inverted
+BraTS2020,volume_245_slice_75.h5,volume_245_slice_75.h5,modality_3,0.496926,class_1_inverted
+BraTS2020,volume_157_slice_112.h5,volume_157_slice_112.h5,modality_0,0.239909,class_2_normal
+BraTS2020,volume_157_slice_112.h5,volume_157_slice_112.h5,modality_3,0.188207,class_0_inverted
+BraTS2020,volume_298_slice_66.h5,volume_298_slice_66.h5,modality_0,0.093914,class_2_normal
+BraTS2020,volume_298_slice_66.h5,volume_298_slice_66.h5,modality_3,0.749052,class_1_inverted
+BraTS2020,volume_227_slice_58.h5,volume_227_slice_58.h5,modality_0,0.560273,class_2_normal
+BraTS2020,volume_227_slice_58.h5,volume_227_slice_58.h5,modality_3,0.259431,class_2_normal
+BraTS2020,volume_112_slice_73.h5,volume_112_slice_73.h5,modality_0,0.933043,class_2_normal
+BraTS2020,volume_112_slice_73.h5,volume_112_slice_73.h5,modality_3,0.846990,class_2_normal
+BraTS2020,volume_67_slice_84.h5,volume_67_slice_84.h5,modality_0,0.757168,class_1_inverted
+BraTS2020,volume_67_slice_84.h5,volume_67_slice_84.h5,modality_3,0.403347,class_1_inverted
+BraTS2020,volume_51_slice_102.h5,volume_51_slice_102.h5,modality_0,0.918888,class_2_normal
+BraTS2020,volume_51_slice_102.h5,volume_51_slice_102.h5,modality_3,0.854707,class_2_normal
+BraTS2020,volume_135_slice_99.h5,volume_135_slice_99.h5,modality_0,0.917068,class_2_normal
+BraTS2020,volume_135_slice_99.h5,volume_135_slice_99.h5,modality_3,0.901868,class_2_normal
+BraTS2020,volume_229_slice_112.h5,volume_229_slice_112.h5,modality_0,0.852293,class_1_inverted
+BraTS2020,volume_229_slice_112.h5,volume_229_slice_112.h5,modality_3,0.678442,class_2_normal
+BraTS2020,volume_231_slice_71.h5,volume_231_slice_71.h5,modality_0,0.956130,class_2_normal
+BraTS2020,volume_231_slice_71.h5,volume_231_slice_71.h5,modality_3,0.675499,class_2_normal
+BraTS2020,volume_223_slice_115.h5,volume_223_slice_115.h5,modality_0,0.949242,class_2_normal
+BraTS2020,volume_223_slice_115.h5,volume_223_slice_115.h5,modality_3,0.733699,class_2_normal
+BraTS2020,volume_78_slice_75.h5,volume_78_slice_75.h5,modality_0,0.061759,class_2_normal
+BraTS2020,volume_78_slice_75.h5,volume_78_slice_75.h5,modality_3,0.044643,class_1_inverted
+BraTS2020,volume_51_slice_92.h5,volume_51_slice_92.h5,modality_0,0.940558,class_2_normal
+BraTS2020,volume_51_slice_92.h5,volume_51_slice_92.h5,modality_3,0.465088,class_1_inverted
+BraTS2020,volume_354_slice_69.h5,volume_354_slice_69.h5,modality_0,0.309845,class_2_normal
+BraTS2020,volume_354_slice_69.h5,volume_354_slice_69.h5,modality_3,0.760443,class_2_normal
+BraTS2020,volume_153_slice_99.h5,volume_153_slice_99.h5,modality_0,0.895489,class_1_inverted
+BraTS2020,volume_153_slice_99.h5,volume_153_slice_99.h5,modality_3,0.793288,class_2_normal
+BraTS2020,volume_349_slice_110.h5,volume_349_slice_110.h5,modality_0,0.884996,class_2_normal
+BraTS2020,volume_349_slice_110.h5,volume_349_slice_110.h5,modality_3,0.771273,class_2_normal
+BraTS2020,volume_326_slice_78.h5,volume_326_slice_78.h5,modality_0,0.864302,class_1_inverted
+BraTS2020,volume_326_slice_78.h5,volume_326_slice_78.h5,modality_3,0.688532,class_1_inverted
+BraTS2020,volume_259_slice_77.h5,volume_259_slice_77.h5,modality_0,0.883052,class_2_normal
+BraTS2020,volume_259_slice_77.h5,volume_259_slice_77.h5,modality_3,0.814315,class_2_normal
+BraTS2020,volume_296_slice_45.h5,volume_296_slice_45.h5,modality_0,0.932682,class_2_normal
+BraTS2020,volume_296_slice_45.h5,volume_296_slice_45.h5,modality_3,0.910598,class_2_normal
+BraTS2020,volume_26_slice_104.h5,volume_26_slice_104.h5,modality_0,0.824698,class_1_inverted
+BraTS2020,volume_26_slice_104.h5,volume_26_slice_104.h5,modality_3,0.835882,class_1_inverted
+BraTS2020,volume_204_slice_41.h5,volume_204_slice_41.h5,modality_0,0.004950,class_2_normal
+BraTS2020,volume_204_slice_41.h5,volume_204_slice_41.h5,modality_3,0.005217,class_2_normal
+BraTS2020,volume_267_slice_76.h5,volume_267_slice_76.h5,modality_0,0.828283,class_2_normal
+BraTS2020,volume_267_slice_76.h5,volume_267_slice_76.h5,modality_3,0.464153,class_2_normal
+BraTS2020,volume_350_slice_68.h5,volume_350_slice_68.h5,modality_0,0.895170,class_1_inverted
+BraTS2020,volume_350_slice_68.h5,volume_350_slice_68.h5,modality_3,0.499433,class_1_inverted
+BraTS2020,volume_293_slice_97.h5,volume_293_slice_97.h5,modality_0,0.373607,class_2_normal
+BraTS2020,volume_293_slice_97.h5,volume_293_slice_97.h5,modality_3,0.565694,class_2_normal
+BraTS2020,volume_64_slice_67.h5,volume_64_slice_67.h5,modality_0,0.729032,class_1_inverted
+BraTS2020,volume_64_slice_67.h5,volume_64_slice_67.h5,modality_3,0.625986,class_1_inverted
+BraTS2020,volume_335_slice_97.h5,volume_335_slice_97.h5,modality_0,0.973480,class_2_normal
+BraTS2020,volume_335_slice_97.h5,volume_335_slice_97.h5,modality_3,0.792861,class_1_inverted
+BraTS2020,volume_279_slice_82.h5,volume_279_slice_82.h5,modality_0,0.232685,class_2_normal
+BraTS2020,volume_279_slice_82.h5,volume_279_slice_82.h5,modality_3,0.857319,class_2_normal
+BraTS2020,volume_212_slice_74.h5,volume_212_slice_74.h5,modality_0,0.124585,class_2_normal
+BraTS2020,volume_212_slice_74.h5,volume_212_slice_74.h5,modality_3,0.386249,class_1_inverted
+BraTS2020,volume_129_slice_78.h5,volume_129_slice_78.h5,modality_0,0.046584,class_2_normal
+BraTS2020,volume_129_slice_78.h5,volume_129_slice_78.h5,modality_3,0.056667,class_1_inverted
+BraTS2020,volume_305_slice_102.h5,volume_305_slice_102.h5,modality_0,0.513204,class_2_normal
+BraTS2020,volume_305_slice_102.h5,volume_305_slice_102.h5,modality_3,0.747141,class_2_normal
+BraTS2020,volume_341_slice_47.h5,volume_341_slice_47.h5,modality_0,0.020481,class_2_normal
+BraTS2020,volume_341_slice_47.h5,volume_341_slice_47.h5,modality_3,0.032301,class_1_normal
+BraTS2020,volume_220_slice_63.h5,volume_220_slice_63.h5,modality_0,0.037127,class_2_normal
+BraTS2020,volume_220_slice_63.h5,volume_220_slice_63.h5,modality_3,0.030807,class_1_normal
+BraTS2020,volume_30_slice_129.h5,volume_30_slice_129.h5,modality_0,0.005756,class_2_normal
+BraTS2020,volume_30_slice_129.h5,volume_30_slice_129.h5,modality_3,0.139535,class_2_normal
+BraTS2020,volume_6_slice_117.h5,volume_6_slice_117.h5,modality_0,0.548006,class_1_inverted
+BraTS2020,volume_6_slice_117.h5,volume_6_slice_117.h5,modality_3,0.507095,class_1_inverted
+BraTS2020,volume_10_slice_98.h5,volume_10_slice_98.h5,modality_0,0.409109,class_2_normal
+BraTS2020,volume_10_slice_98.h5,volume_10_slice_98.h5,modality_3,0.527453,class_2_normal
+BraTS2020,volume_187_slice_120.h5,volume_187_slice_120.h5,modality_0,0.037296,class_2_normal
+BraTS2020,volume_187_slice_120.h5,volume_187_slice_120.h5,modality_3,0.330251,class_2_normal
+BraTS2020,volume_230_slice_132.h5,volume_230_slice_132.h5,modality_0,0.142857,class_2_normal
+BraTS2020,volume_230_slice_132.h5,volume_230_slice_132.h5,modality_3,0.142857,class_2_normal
+BraTS2020,volume_260_slice_56.h5,volume_260_slice_56.h5,modality_0,0.194851,class_2_normal
+BraTS2020,volume_260_slice_56.h5,volume_260_slice_56.h5,modality_3,0.742248,class_2_normal
+BraTS2020,volume_312_slice_126.h5,volume_312_slice_126.h5,modality_0,0.040459,class_2_normal
+BraTS2020,volume_312_slice_126.h5,volume_312_slice_126.h5,modality_3,0.030992,class_2_normal
+BraTS2020,volume_323_slice_75.h5,volume_323_slice_75.h5,modality_0,0.716687,class_2_normal
+BraTS2020,volume_323_slice_75.h5,volume_323_slice_75.h5,modality_3,0.613510,class_2_normal
+BraTS2020,volume_291_slice_59.h5,volume_291_slice_59.h5,modality_0,0.711748,class_2_normal
+BraTS2020,volume_291_slice_59.h5,volume_291_slice_59.h5,modality_3,0.728546,class_1_inverted
+BraTS2020,volume_320_slice_115.h5,volume_320_slice_115.h5,modality_0,0.005173,class_2_normal
+BraTS2020,volume_320_slice_115.h5,volume_320_slice_115.h5,modality_3,0.032787,class_1_inverted
+BraTS2020,volume_237_slice_48.h5,volume_237_slice_48.h5,modality_0,0.186300,class_2_normal
+BraTS2020,volume_237_slice_48.h5,volume_237_slice_48.h5,modality_3,0.842677,class_2_normal
+BraTS2020,volume_339_slice_88.h5,volume_339_slice_88.h5,modality_0,0.783955,class_1_inverted
+BraTS2020,volume_339_slice_88.h5,volume_339_slice_88.h5,modality_3,0.395023,class_1_inverted
+BraTS2020,volume_124_slice_39.h5,volume_124_slice_39.h5,modality_0,0.436066,class_2_normal
+BraTS2020,volume_124_slice_39.h5,volume_124_slice_39.h5,modality_3,0.518519,class_2_normal
+BraTS2020,volume_120_slice_122.h5,volume_120_slice_122.h5,modality_0,0.660413,class_1_inverted
+BraTS2020,volume_120_slice_122.h5,volume_120_slice_122.h5,modality_3,0.518409,class_1_inverted
+BraTS2020,volume_168_slice_115.h5,volume_168_slice_115.h5,modality_0,0.114153,class_2_normal
+BraTS2020,volume_168_slice_115.h5,volume_168_slice_115.h5,modality_3,0.402092,class_2_normal
+BraTS2020,volume_296_slice_51.h5,volume_296_slice_51.h5,modality_0,0.928878,class_2_normal
+BraTS2020,volume_296_slice_51.h5,volume_296_slice_51.h5,modality_3,0.864742,class_2_normal
+BraTS2020,volume_51_slice_95.h5,volume_51_slice_95.h5,modality_0,0.939479,class_2_normal
+BraTS2020,volume_51_slice_95.h5,volume_51_slice_95.h5,modality_3,0.581878,class_2_normal
+BraTS2020,volume_222_slice_105.h5,volume_222_slice_105.h5,modality_0,0.934089,class_1_inverted
+BraTS2020,volume_222_slice_105.h5,volume_222_slice_105.h5,modality_3,0.708709,class_2_normal
+BraTS2020,volume_133_slice_81.h5,volume_133_slice_81.h5,modality_0,0.835262,class_2_normal
+BraTS2020,volume_133_slice_81.h5,volume_133_slice_81.h5,modality_3,0.790090,class_2_normal
+BraTS2020,volume_208_slice_91.h5,volume_208_slice_91.h5,modality_0,0.257673,class_2_normal
+BraTS2020,volume_208_slice_91.h5,volume_208_slice_91.h5,modality_3,0.723438,class_2_normal
+BraTS2020,volume_151_slice_128.h5,volume_151_slice_128.h5,modality_0,0.083394,class_2_normal
+BraTS2020,volume_151_slice_128.h5,volume_151_slice_128.h5,modality_3,0.355601,class_2_normal
+BraTS2020,volume_54_slice_65.h5,volume_54_slice_65.h5,modality_0,0.761354,class_1_inverted
+BraTS2020,volume_54_slice_65.h5,volume_54_slice_65.h5,modality_3,0.495071,class_1_inverted
+BraTS2020,volume_118_slice_92.h5,volume_118_slice_92.h5,modality_0,0.948261,class_1_inverted
+BraTS2020,volume_118_slice_92.h5,volume_118_slice_92.h5,modality_3,0.784799,class_1_inverted
+BraTS2020,volume_139_slice_82.h5,volume_139_slice_82.h5,modality_0,0.048320,class_2_normal
+BraTS2020,volume_139_slice_82.h5,volume_139_slice_82.h5,modality_3,0.045067,class_1_normal
+BraTS2020,volume_147_slice_114.h5,volume_147_slice_114.h5,modality_0,0.188473,class_2_normal
+BraTS2020,volume_147_slice_114.h5,volume_147_slice_114.h5,modality_3,0.067469,class_2_normal
+BraTS2020,volume_276_slice_118.h5,volume_276_slice_118.h5,modality_0,0.057776,class_2_normal
+BraTS2020,volume_276_slice_118.h5,volume_276_slice_118.h5,modality_3,0.447433,class_2_normal
+BraTS2020,volume_245_slice_91.h5,volume_245_slice_91.h5,modality_0,0.056104,class_2_normal
+BraTS2020,volume_245_slice_91.h5,volume_245_slice_91.h5,modality_3,0.153226,class_1_inverted
+BraTS2020,volume_200_slice_76.h5,volume_200_slice_76.h5,modality_0,0.042630,class_2_normal
+BraTS2020,volume_200_slice_76.h5,volume_200_slice_76.h5,modality_3,0.449631,class_2_normal
+BraTS2020,volume_138_slice_101.h5,volume_138_slice_101.h5,modality_0,0.749720,class_2_normal
+BraTS2020,volume_138_slice_101.h5,volume_138_slice_101.h5,modality_3,0.700479,class_2_normal
+BraTS2020,volume_299_slice_86.h5,volume_299_slice_86.h5,modality_0,0.270905,class_2_inverted
+BraTS2020,volume_299_slice_86.h5,volume_299_slice_86.h5,modality_3,0.829765,class_2_normal
+BraTS2020,volume_192_slice_113.h5,volume_192_slice_113.h5,modality_0,0.787194,class_2_normal
+BraTS2020,volume_192_slice_113.h5,volume_192_slice_113.h5,modality_3,0.711827,class_2_normal
+BraTS2020,volume_277_slice_107.h5,volume_277_slice_107.h5,modality_0,0.003222,class_2_normal
+BraTS2020,volume_277_slice_107.h5,volume_277_slice_107.h5,modality_3,0.055944,class_2_normal
+BraTS2020,volume_148_slice_110.h5,volume_148_slice_110.h5,modality_0,0.112151,class_2_normal
+BraTS2020,volume_148_slice_110.h5,volume_148_slice_110.h5,modality_3,0.360033,class_2_normal
+BraTS2020,volume_171_slice_78.h5,volume_171_slice_78.h5,modality_0,0.183282,class_2_normal
+BraTS2020,volume_171_slice_78.h5,volume_171_slice_78.h5,modality_3,0.455926,class_1_inverted
+BraTS2020,volume_335_slice_78.h5,volume_335_slice_78.h5,modality_0,0.887997,class_2_normal
+BraTS2020,volume_335_slice_78.h5,volume_335_slice_78.h5,modality_3,0.698231,class_2_normal
+BraTS2020,volume_202_slice_99.h5,volume_202_slice_99.h5,modality_0,0.012731,class_2_normal
+BraTS2020,volume_202_slice_99.h5,volume_202_slice_99.h5,modality_3,0.226744,class_1_inverted
+BraTS2020,volume_105_slice_50.h5,volume_105_slice_50.h5,modality_0,0.854334,class_2_normal
+BraTS2020,volume_105_slice_50.h5,volume_105_slice_50.h5,modality_3,0.283686,class_2_normal
+BraTS2020,volume_232_slice_71.h5,volume_232_slice_71.h5,modality_0,0.868453,class_2_normal
+BraTS2020,volume_232_slice_71.h5,volume_232_slice_71.h5,modality_3,0.497173,class_2_normal
+BraTS2020,volume_305_slice_132.h5,volume_305_slice_132.h5,modality_0,0.407686,class_2_normal
+BraTS2020,volume_305_slice_132.h5,volume_305_slice_132.h5,modality_3,0.692771,class_2_normal
+BraTS2020,volume_281_slice_88.h5,volume_281_slice_88.h5,modality_0,0.844916,class_1_inverted
+BraTS2020,volume_281_slice_88.h5,volume_281_slice_88.h5,modality_3,0.605563,class_2_normal

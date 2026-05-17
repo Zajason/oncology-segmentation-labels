@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brats,random_walker,100,0.772704,0.146997,0.645613,0.136397,0.395312

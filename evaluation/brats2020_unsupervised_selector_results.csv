@@ -1,0 +1,6 @@
+slice,selected_modality,selected_candidate,unsupervised_score,iou_after_selection,area_ratio,contrast,edge_alignment,solidity,compactness,agreement,border_fraction
+volume_50_slice_49.h5,modality_0,random_walker_dark_inverted_component_1,1.002585,0.102856,0.242552,1.000000,1.000000,0.948570,0.792657,0.205991,0.000000
+volume_151_slice_107.h5,modality_0,random_walker_dark_inverted_component_1,1.008573,0.147644,0.242465,1.000000,1.000000,0.983953,0.841113,0.219608,0.000000
+volume_112_slice_56.h5,modality_0,morphological_snakes_normal_component_3,0.996766,0.002154,0.011858,1.000000,1.000000,0.965909,0.702193,0.037602,0.000000
+volume_98_slice_81.h5,modality_0,adaptive_41_3_inverted_component_2,0.989831,0.169279,0.191337,1.000000,0.911307,0.962695,0.599104,0.174617,0.000000
+volume_221_slice_53.h5,modality_0,morphological_snakes_normal_component_5,0.996826,0.149094,0.011042,1.000000,1.000000,0.966531,0.730548,0.036920,0.000000

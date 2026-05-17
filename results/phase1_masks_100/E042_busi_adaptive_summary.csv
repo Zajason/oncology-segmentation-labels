@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+busi,adaptive,100,0.530858,0.247851,0.401130,0.238055,0.154314

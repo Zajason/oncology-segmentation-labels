@@ -1,0 +1,11 @@
+image,mask,selected_candidate,unsupervised_score,iou_after_selection,area_ratio,contrast,polarity_contrast,edge_alignment,solidity,compactness,agreement,border_fraction
+benign/benign (201).png,benign/benign (201)_mask.png,multi_otsu_class_0_normal_component_4,0.824900,0.000000,0.014779,0.900692,0.900692,0.643406,0.643406,0.085358,0.025574,0.000000
+benign/benign (121).png,benign/benign (121)_mask.png,adaptive_41_3_normal_component_103,0.708206,0.000000,0.043453,0.897717,0.897717,0.620596,0.333373,0.011283,0.018191,0.000000
+benign/benign (352).png,benign/benign (352)_mask.png,multi_otsu_class_2_inverted_component_12,0.655544,0.859762,0.011703,0.043764,0.043764,1.000000,0.917386,0.631806,0.052382,0.000000
+benign/benign (324).png,benign/benign (324)_mask.png,chan_vese_normal_component_10,0.858761,0.704936,0.005357,0.963987,0.963987,0.851450,0.962830,0.791165,0.048113,0.000000
+benign/benign (304).png,benign/benign (304)_mask.png,adaptive_41_3_normal_component_133,0.742186,0.000000,0.048050,1.000000,1.000000,0.447847,0.419417,0.031693,0.030166,0.005527
+benign/benign (227).png,benign/benign (227)_mask.png,chan_vese_normal_component_39,0.883112,0.000000,0.028912,1.000000,1.000000,0.525750,0.836505,0.192228,0.034283,0.114703
+benign/benign (193).png,benign/benign (193)_mask.png,multi_otsu_class_0_normal_component_36,0.948031,0.828134,0.010745,1.000000,1.000000,0.811399,0.830532,0.463695,0.034824,0.000000
+malignant/malignant (208).png,malignant/malignant (208)_mask.png,morphological_snakes_normal_component_12,0.733969,0.044136,0.015661,0.534569,0.534569,0.425357,0.881055,0.452027,0.018151,0.000000
+benign/benign (18).png,benign/benign (18)_mask.png,morphological_snakes_inverted_component_6,0.844114,0.202087,0.040671,0.952814,0.952814,0.555791,0.504856,0.143816,0.030648,0.000000
+malignant/malignant (60).png,malignant/malignant (60)_mask.png,morphological_snakes_inverted_component_51,0.832569,0.000000,0.130438,1.000000,1.000000,0.188179,0.736862,0.263336,0.040019,0.040943

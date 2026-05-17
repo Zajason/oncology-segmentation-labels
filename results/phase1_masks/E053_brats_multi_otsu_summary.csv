@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brats,multi_otsu,10,0.657709,0.250293,0.532509,0.232812,0.015134
