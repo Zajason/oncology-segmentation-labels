@@ -1,2 +1,2 @@
 dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
-busi,watershed,10,0.858974,0.179128,0.784245,0.200793,0.039931
+busi,watershed,647,0.753785,0.144846,0.625035,0.175272,4.838637

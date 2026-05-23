@@ -199,10 +199,10 @@ def dice_iou(pred, gt):
     return float(dice), float(iou)
 
 
-def masks_to_polygons(masks, min_area=5):
+def masks_to_polygons(masks, min_area=5, class_id=0):
     labels = []
 
-    for class_id, mask in enumerate(masks):
+    for mask in masks:
         binary = (mask > 0).astype(np.uint8)
         contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 

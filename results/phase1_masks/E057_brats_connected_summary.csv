@@ -1,2 +1,2 @@
 dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
-brats,connected,10,0.716400,0.243297,0.597401,0.208477,0.006462
+brats,connected,24422,0.731185,0.221630,0.614009,0.220438,19.023352

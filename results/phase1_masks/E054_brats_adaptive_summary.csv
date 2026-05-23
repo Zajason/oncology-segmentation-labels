@@ -1,2 +1,2 @@
 dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
-brats,adaptive,10,0.763652,0.271081,0.673785,0.260078,0.005806
+brats,adaptive,24422,0.756547,0.192517,0.637753,0.193627,19.029927

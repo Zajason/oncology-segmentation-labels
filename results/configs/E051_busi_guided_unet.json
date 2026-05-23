@@ -1,0 +1,5 @@
+{
+  "checkpoint": "/home/zajason/dev/ehealth/eHealth/checkpoints/U042_busi_guided_unet.pt",
+  "device": "cuda",
+  "size": 256
+}
