@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+busi,otsu_watershed,647,0.244835,0.160318,0.150619,0.123582,5.212907

@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+busi,morph_gac,647,0.849558,0.081757,0.746727,0.116797,329.372099

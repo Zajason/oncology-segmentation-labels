@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brats,adaptive,100,0.834959,0.160550,0.738285,0.160478,0.051372

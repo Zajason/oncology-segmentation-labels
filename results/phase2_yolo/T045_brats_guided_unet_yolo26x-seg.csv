@@ -1,0 +1,2 @@
+dataset,method,model,epochs,B_mAP50,B_mAP50_95,M_mAP50,M_mAP50_95,runtime_min
+brats,guided_unet,yolo26x-seg,50,0.586411,0.396801,0.585653,0.372483,351.992968

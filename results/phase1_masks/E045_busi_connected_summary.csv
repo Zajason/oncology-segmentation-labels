@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+busi,connected,647,0.215793,0.147372,0.129881,0.109757,1.332782

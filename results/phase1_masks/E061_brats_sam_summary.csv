@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brats,sam,24422,0.783616,0.112567,0.657569,0.145607,9249.151177

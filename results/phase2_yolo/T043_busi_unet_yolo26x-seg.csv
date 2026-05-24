@@ -1,0 +1,2 @@
+dataset,method,model,epochs,B_mAP50,B_mAP50_95,M_mAP50,M_mAP50_95,runtime_min
+busi,unet,yolo26x-seg,50,0.858420,0.620899,0.866195,0.655629,17.501595

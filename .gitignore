@@ -1,2 +1,39 @@
-/.venv
-/data
+# Python/runtime
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local env/config
+.venv/
+.kaggle/
+.matplotlib/
+
+# Raw/local datasets
+data/
+datasets/
+
+# Logs and training outputs
+logs/
+runs/
+checkpoints/
+wandb/
+mlruns/
+
+# Model weights/checkpoints
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+
+# Generated prepared image/mask data
+manifests/prepared/
+
+# Heavy generated labels/datasets/results
+results/polygon_labels/
+results/phase2_yolo/datasets/
+results/phase2_yolo/runs/
+results/phase2_yolo/**/weights/
+results/phase2_yolo/**/*.pt
+results/phase2_yolo/**/*.pth

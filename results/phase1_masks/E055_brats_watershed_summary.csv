@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brats,watershed,24422,0.627422,0.247074,0.498786,0.235618,34.558551
