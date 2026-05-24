@@ -1,0 +1,2 @@
+dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
+brain_tumor,guided_unet,7200,NaN,NaN,NaN,NaN,20.840634

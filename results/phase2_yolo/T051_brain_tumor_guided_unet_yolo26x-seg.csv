@@ -1,0 +1,2 @@
+dataset,method,model,epochs,B_mAP50,B_mAP50_95,M_mAP50,M_mAP50_95,runtime_min
+brain_tumor,guided_unet,yolo26x-seg,6,0.431695,0.325498,0.427989,0.264249,21.264224
