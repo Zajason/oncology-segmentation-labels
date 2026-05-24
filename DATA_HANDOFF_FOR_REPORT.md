@@ -322,14 +322,14 @@ tail -f runs/segment/results/phase2_yolo/runs/T045_brats_guided_unet_yolo26x-seg
 
 ### Brain Tumor Remaining Phase 1-only Method Runs
 
-The full oncology brief includes all 12 Brain Tumor Phase 1 methods (`E064-E075`). The fast classical methods plus U-Net and Guided U-Net are ready. These slower/optional Brain Tumor method outputs are not ready yet:
+The full oncology brief includes all 12 Brain Tumor Phase 1 methods (`E064-E075`). The fast classical methods plus SAM, U-Net, and Guided U-Net are ready. These slower/optional Brain Tumor method outputs are not ready yet:
 
 | Expected experiment | Method | Current status |
 |---|---|---|
 | `E070_brain_tumor_random_walker_*` | Random Walker | Not generated yet |
 | `E071_brain_tumor_chan_vese_*` | Chan-Vese | Not generated yet |
 | `E072_brain_tumor_morph_gac_*` | Morphological GAC | Not generated yet |
-| `E073_brain_tumor_sam_*` | SAM | Not generated yet |
+| `E073_brain_tumor_sam_*` | SAM | Ready |
 
 ## Local-Only Data Not Intended for GitHub
 
