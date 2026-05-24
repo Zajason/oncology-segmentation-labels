@@ -165,25 +165,136 @@ The following BraTS Phase 2 runs are not ready in `results/phase2_yolo/` yet:
 
 | Expected run | Dataset | Method | Model | Current status |
 |---|---|---|---|---|
-| `T046_brats_unet_yolo11x-seg.csv` | BraTS | U-Net | YOLOv11x-seg | Being trained locally. |
-| `T047_brats_unet_yolo26x-seg.csv` | BraTS | U-Net | YOLOv26x-seg | Pending after the current run. |
+| `T046_brats_unet_yolo11x-seg.csv` | BraTS | U-Net | YOLOv11x-seg | Local training run exists; compact CSV still needs to be generated/copied into `results/phase2_yolo/`. |
+| `T047_brats_unet_yolo26x-seg.csv` | BraTS | U-Net | YOLOv26x-seg | Local training run exists; compact CSV still needs to be generated/copied into `results/phase2_yolo/`. |
 
-Earlier today the active local training had moved past the resumed Guided U-Net BraTS run and was training:
+Local training folders for the BraTS Phase 2 runs are:
 
 ```text
+runs/segment/results/phase2_yolo/runs/T045_brats_guided_unet_yolo26x-seg
 runs/segment/results/phase2_yolo/runs/T046_brats_unet_yolo11x-seg
+runs/segment/results/phase2_yolo/runs/T047_brats_unet_yolo26x-seg
 ```
 
-At that point it was on epoch 16/50. Once it finishes, the compact CSV summary should be copied/generated into:
+The generated YOLO datasets used by these runs are local-only and live at:
 
 ```text
-results/phase2_yolo/T046_brats_unet_yolo11x-seg.csv
+results/phase2_yolo/datasets/brats/guided_unet/
+results/phase2_yolo/datasets/brats/unet/
 ```
 
-Then the remaining pending run is:
+Their dataset YAML files are:
 
 ```text
-results/phase2_yolo/T047_brats_unet_yolo26x-seg.csv
+results/phase2_yolo/datasets/brats/guided_unet/dataset.yaml
+results/phase2_yolo/datasets/brats/unet/dataset.yaml
+```
+
+Use the following commands from the repository root if these results need to be regenerated or finalized locally:
+
+```bash
+cd /home/zajason/dev/ehealth/eHealth
+source .venv/bin/activate
+python code/run_two_dataset_brief.py --device cuda --yolo-device 0 --force
+```
+
+Run without `--force` to skip work that is already present:
+
+```bash
+cd /home/zajason/dev/ehealth/eHealth
+source .venv/bin/activate
+python code/run_two_dataset_brief.py --device cuda --yolo-device 0
+```
+
+Manual BraTS Guided U-Net YOLOv26x training command:
+
+```bash
+.venv/bin/python code/train_yolo_phase2.py \
+    --dataset brats \
+    --method guided_unet \
+    --rank 1 \
+    --model yolo26x-seg \
+    --manifest manifests/brats.csv \
+    --epochs 50 \
+    --imgsz 640 \
+    --batch 1 \
+    --device 0 \
+    --workers 0
+```
+
+Resume the BraTS Guided U-Net YOLOv26x run with:
+
+```bash
+.venv/bin/python code/train_yolo_phase2.py \
+    --dataset brats \
+    --method guided_unet \
+    --rank 1 \
+    --model yolo26x-seg \
+    --manifest manifests/brats.csv \
+    --epochs 50 \
+    --imgsz 640 \
+    --batch 1 \
+    --device 0 \
+    --workers 0 \
+    --resume
+```
+
+Manual BraTS U-Net YOLOv11x training command:
+
+```bash
+.venv/bin/python code/train_yolo_phase2.py \
+    --dataset brats \
+    --method unet \
+    --rank 2 \
+    --model yolo11x-seg \
+    --manifest manifests/brats.csv \
+    --epochs 50 \
+    --imgsz 640 \
+    --batch 1 \
+    --device 0 \
+    --workers 0
+```
+
+Manual BraTS U-Net YOLOv26x training command:
+
+```bash
+.venv/bin/python code/train_yolo_phase2.py \
+    --dataset brats \
+    --method unet \
+    --rank 2 \
+    --model yolo26x-seg \
+    --manifest manifests/brats.csv \
+    --epochs 50 \
+    --imgsz 640 \
+    --batch 1 \
+    --device 0 \
+    --workers 0
+```
+
+Resume the BraTS U-Net YOLOv26x run with:
+
+```bash
+cd /home/zajason/dev/ehealth/eHealth
+source .venv/bin/activate
+
+.venv/bin/python code/train_yolo_phase2.py \
+    --dataset brats \
+    --method unet \
+    --rank 2 \
+    --model yolo26x-seg \
+    --manifest manifests/brats.csv \
+    --epochs 50 \
+    --imgsz 640 \
+    --batch 1 \
+    --device 0 \
+    --workers 0 \
+    --resume
+```
+
+To watch progress:
+
+```bash
+tail -f runs/segment/results/phase2_yolo/runs/T045_brats_guided_unet_yolo26x-seg/results.csv
 ```
 
 ### Brain Tumor experiments
@@ -239,4 +350,3 @@ Recommended wording for the current state:
 ```text
 BUSI and BraTS Phase 1 mask-generation results are available. U-Net and Guided U-Net training logs are available. Phase 2 YOLO summaries are available for BUSI and for BraTS Guided U-Net. BraTS U-Net YOLO runs are still being trained locally, and Brain Tumor outputs are not yet ready.
 ```
-
