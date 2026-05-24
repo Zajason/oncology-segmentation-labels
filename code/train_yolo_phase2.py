@@ -18,6 +18,10 @@ EXPERIMENT_IDS = {
     ("brats", 1, "yolo26x-seg"): "T045",
     ("brats", 2, "yolo11x-seg"): "T046",
     ("brats", 2, "yolo26x-seg"): "T047",
+    ("brain_tumor", 1, "yolo11x-seg"): "T048",
+    ("brain_tumor", 1, "yolo26x-seg"): "T049",
+    ("brain_tumor", 2, "yolo11x-seg"): "T050",
+    ("brain_tumor", 2, "yolo26x-seg"): "T051",
 }
 
 MODEL_WEIGHTS = {
@@ -28,14 +32,25 @@ MODEL_WEIGHTS = {
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train Phase 2 YOLO segmentation models.")
-    parser.add_argument("--dataset", required=True, choices=["busi", "brats"])
+    parser.add_argument("--dataset", required=True, choices=["busi", "brats", "brain_tumor"])
     parser.add_argument("--method", required=True)
     parser.add_argument("--rank", type=int, required=True, choices=[1, 2])
     parser.add_argument("--model", required=True, choices=sorted(MODEL_WEIGHTS))
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--polygon-dir", type=Path, default=Path("results/polygon_labels"))
     parser.add_argument("--output-dir", type=Path, default=Path("results/phase2_yolo"))
-    parser.add_argument("--epochs", type=int, default=50)
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=300,
+        help="Maximum epoch cap. Training normally stops earlier via --patience.",
+    )
+    parser.add_argument(
+        "--patience",
+        type=int,
+        default=5,
+        help="Early-stop after this many epochs without validation metric improvement.",
+    )
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--batch", type=int, default=8)
     parser.add_argument("--device", default="0")
@@ -128,6 +143,20 @@ def find_resume_checkpoint(args, runs_dir, run_name):
     return max(existing, key=lambda path: path.stat().st_mtime)
 
 
+def completed_epochs(runs_dir, run_name, fallback):
+    results_path = runs_dir / run_name / "results.csv"
+    if not results_path.exists():
+        results_path = Path("runs") / "segment" / runs_dir / run_name / "results.csv"
+    if not results_path.exists():
+        return fallback
+
+    with results_path.open() as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        return fallback
+    return len(rows)
+
+
 def main():
     args = parse_args()
     rows = read_manifest(args.manifest)
@@ -165,6 +194,7 @@ def main():
             data=str(data_yaml),
             task="segment",
             epochs=args.epochs,
+            patience=args.patience,
             imgsz=args.imgsz,
             batch=args.batch,
             device=args.device,
@@ -188,6 +218,7 @@ def main():
         workers=args.workers,
     )
     runtime_min = (time.perf_counter() - start) / 60.0
+    actual_epochs = completed_epochs(runs_dir, run_name, args.epochs)
 
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     with summary_path.open("w", newline="") as f:
@@ -211,7 +242,7 @@ def main():
                 "dataset": args.dataset,
                 "method": args.method,
                 "model": args.model,
-                "epochs": args.epochs,
+                "epochs": actual_epochs,
                 "B_mAP50": f"{metric_or_zero(metrics.box, 'map50'):.6f}",
                 "B_mAP50_95": f"{metric_or_zero(metrics.box, 'map'):.6f}",
                 "M_mAP50": f"{metric_or_zero(metrics.seg, 'map50'):.6f}",

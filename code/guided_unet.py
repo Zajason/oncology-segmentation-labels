@@ -3,10 +3,16 @@ import numpy as np
 
 from common import crop_box, paste_crop_mask
 
+_MODEL_CACHE = {}
+
 
 def _load_model(config):
     checkpoint = config.get("checkpoint")
     device = config.get("device", "cpu")
+    cache_key = (str(checkpoint), str(device), config.get("encoder", "resnet34"))
+
+    if cache_key in _MODEL_CACHE:
+        return _MODEL_CACHE[cache_key]
 
     if not checkpoint:
         raise ValueError("Guided U-Net requires config['checkpoint'].")
@@ -27,7 +33,9 @@ def _load_model(config):
     model.load_state_dict(state["model"] if isinstance(state, dict) and "model" in state else state)
     model.to(device)
     model.eval()
-    return model, torch, device
+    loaded = (model, torch, device)
+    _MODEL_CACHE[cache_key] = loaded
+    return loaded
 
 
 def _prepare_guided_crop(crop, size, torch, device):

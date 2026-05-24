@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import math
 import subprocess
 import sys
 import urllib.request
@@ -53,17 +54,44 @@ DATASETS = {
             "guided_unet": "U043",
         },
     },
+    "brain_tumor": {
+        "manifest": BASE_DIR / "manifests" / "brain_tumor.csv",
+        "phase1": [
+            ("E064", "otsu"),
+            ("E065", "multi_otsu"),
+            ("E066", "adaptive"),
+            ("E067", "watershed"),
+            ("E068", "otsu_watershed"),
+            ("E069", "connected"),
+            ("E070", "random_walker"),
+            ("E071", "chan_vese"),
+            ("E072", "morph_gac"),
+            ("E073", "sam"),
+            ("E074", "unet"),
+            ("E075", "guided_unet"),
+        ],
+        "train_ids": {
+            "unet": "U041",
+            "guided_unet": "U043",
+        },
+    },
 }
 
 SAM_URL = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth"
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Run the BUSI + BraTS scope from the oncology brief.")
+    parser = argparse.ArgumentParser(description="Run the oncology brief scope.")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--yolo-device", default="0")
     parser.add_argument("--unet-epochs", type=int, default=20)
-    parser.add_argument("--yolo-epochs", type=int, default=50)
+    parser.add_argument(
+        "--yolo-epochs",
+        type=int,
+        default=300,
+        help="Maximum YOLO epoch cap. Early stopping normally ends runs sooner.",
+    )
+    parser.add_argument("--yolo-patience", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--yolo-batch-size", type=int, default=4)
     parser.add_argument("--yolo-workers", type=int, default=4)
@@ -126,6 +154,8 @@ def unet_outputs_exist(experiment_id, dataset, method):
 
 def train_unets(args):
     for dataset_name, dataset_cfg in DATASETS.items():
+        if dataset_name == "brain_tumor":
+            continue
         for method, script_name in [("unet", "train_unet.py"), ("guided_unet", "train_guided_unet.py")]:
             exp_id = dataset_cfg["train_ids"][method]
             if unet_outputs_exist(exp_id, dataset_name, method) and not args.force:
@@ -162,15 +192,29 @@ def phase1_config(dataset, method, args):
         }
 
     if method == "unet":
+        train_dataset = "brats" if dataset == "brain_tumor" else dataset
         return {
-            "checkpoint": str((BASE_DIR / "checkpoints" / f"{DATASETS[dataset]['train_ids']['unet']}_{dataset}_unet.pt").resolve()),
+            "checkpoint": str(
+                (
+                    BASE_DIR
+                    / "checkpoints"
+                    / f"{DATASETS[dataset]['train_ids']['unet']}_{train_dataset}_unet.pt"
+                ).resolve()
+            ),
             "device": args.device,
             "size": 256,
         }
 
     if method == "guided_unet":
+        train_dataset = "brats" if dataset == "brain_tumor" else dataset
         return {
-            "checkpoint": str((BASE_DIR / "checkpoints" / f"{DATASETS[dataset]['train_ids']['guided_unet']}_{dataset}_guided_unet.pt").resolve()),
+            "checkpoint": str(
+                (
+                    BASE_DIR
+                    / "checkpoints"
+                    / f"{DATASETS[dataset]['train_ids']['guided_unet']}_{train_dataset}_guided_unet.pt"
+                ).resolve()
+            ),
             "device": args.device,
             "size": 256,
         }
@@ -224,10 +268,33 @@ def read_summary(dataset_name, method):
 
 
 def top_two_methods(dataset_name):
+    if dataset_name == "brain_tumor":
+        return top_two_transfer_methods()
+
     candidates = []
     for _, method in DATASETS[dataset_name]["phase1"]:
         iou_mean, _ = read_summary(dataset_name, method)
+        if math.isnan(iou_mean):
+            continue
         candidates.append((iou_mean, method))
+    candidates.sort(reverse=True)
+    return [method for _, method in candidates[:2]]
+
+
+def top_two_transfer_methods():
+    scores_by_method = {}
+    for source_dataset in ["busi", "brats"]:
+        for _, method in DATASETS[source_dataset]["phase1"]:
+            iou_mean, _ = read_summary(source_dataset, method)
+            if math.isnan(iou_mean):
+                continue
+            scores_by_method.setdefault(method, []).append(iou_mean)
+
+    candidates = [
+        (sum(scores) / len(scores), method)
+        for method, scores in scores_by_method.items()
+        if scores
+    ]
     candidates.sort(reverse=True)
     return [method for _, method in candidates[:2]]
 
@@ -265,6 +332,8 @@ def run_phase2(args):
                         str(dataset_cfg["manifest"]),
                         "--epochs",
                         str(args.yolo_epochs),
+                        "--patience",
+                        str(args.yolo_patience),
                         "--imgsz",
                         str(args.imgsz),
                         "--batch",
@@ -288,7 +357,7 @@ def main():
     train_unets(args)
     run_phase1(args)
     run_phase2(args)
-    print("Completed BUSI + BraTS run plan.")
+    print("Completed oncology brief run plan.")
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ DEFAULT_BRATS_DIR = (
     / "data"
 )
 DEFAULT_BRATS_METADATA = BASE_DIR / "data" / "archive (1)" / "BraTS20 Training Metadata.csv"
-DEFAULT_BRAIN_TUMOR_DIR = BASE_DIR / "data" / "brain_tumor_mri_dataset"
+DEFAULT_BRAIN_TUMOR_DIR = BASE_DIR / "data" / "brain_tumor" / "archive(1)"
 DEFAULT_OUTPUT_DIR = BASE_DIR / "manifests"
 
 
@@ -204,9 +204,20 @@ def build_brats_manifest(brats_dir, metadata_path, output_dir, sample_size, limi
     return manifest_path, len(rows)
 
 
+def write_weak_brain_tumor_box(path, class_name):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if class_name.lower() == "notumor":
+        path.write_text("")
+    else:
+        # This Kaggle-style copy is classification-only. Use a full-image weak
+        # prompt so box-prompted mask methods can still run without GT masks.
+        path.write_text("0 0.5 0.5 1.0 1.0\n")
+
+
 def build_brain_tumor_manifest(brain_tumor_dir, output_dir, sample_size):
     rows = []
     extensions = {".jpg", ".jpeg", ".png"}
+    prepared_box_dir = output_dir / "prepared" / "brain_tumor_boxes"
 
     for split in ["Training", "Testing"]:
         split_dir = brain_tumor_dir / split
@@ -219,12 +230,14 @@ def build_brain_tumor_manifest(brain_tumor_dir, output_dir, sample_size):
 
             class_name = image_path.parent.name
             case_id = f"{split.lower()}_{class_name}_{image_path.stem}"
+            boxes_path = prepared_box_dir / split.lower() / class_name / f"{image_path.stem}.txt"
+            write_weak_brain_tumor_box(boxes_path, class_name)
             rows.append(
                 {
                     "case_id": case_id,
                     "image_path": str(image_path.resolve()),
                     "mask_path": "",
-                    "boxes_path": "",
+                    "boxes_path": str(boxes_path.resolve()),
                 }
             )
 
@@ -273,8 +286,8 @@ def main():
         print(f"{dataset:12s} {count:5d} cases -> {path}")
 
     print(
-        "\nNote: brain_tumor.csv has no mask_path/boxes_path because this local Kaggle copy "
-        "is class-folder organized. Box labels are needed before Phase 1 box-prompted methods can run on it."
+        "\nNote: brain_tumor.csv has no mask_path because this local Kaggle copy has no GT masks. "
+        "Weak full-image box prompts are generated for tumor classes; notumor cases get empty box files."
     )
 
 

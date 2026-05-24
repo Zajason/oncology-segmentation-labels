@@ -1,10 +1,16 @@
 import numpy as np
 
+_PREDICTOR_CACHE = {}
+
 
 def _load_predictor(config):
     checkpoint = config.get("checkpoint")
     model_type = config.get("model_type", "vit_b")
     device = config.get("device", "cpu")
+    cache_key = (str(checkpoint), str(model_type), str(device))
+
+    if cache_key in _PREDICTOR_CACHE:
+        return _PREDICTOR_CACHE[cache_key]
 
     if not checkpoint:
         raise ValueError("SAM requires config['checkpoint'] pointing to a SAM checkpoint.")
@@ -16,7 +22,9 @@ def _load_predictor(config):
 
     sam = sam_model_registry[model_type](checkpoint=checkpoint)
     sam.to(device=device)
-    return SamPredictor(sam)
+    predictor = SamPredictor(sam)
+    _PREDICTOR_CACHE[cache_key] = predictor
+    return predictor
 
 
 def generate_masks(image, boxes, config):

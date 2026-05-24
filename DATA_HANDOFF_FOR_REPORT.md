@@ -38,10 +38,11 @@ Main folder:
 results/phase1_masks/
 ```
 
-This contains per-case and summary CSVs for BUSI and BraTS:
+This contains per-case and summary CSVs for BUSI, BraTS, and the completed Brain Tumor shortcut run:
 
 - BUSI runs: `E040` to `E051`
 - BraTS runs: `E052` to `E063`
+- Brain Tumor U-Net run: `E074`
 
 Each method has two files:
 
@@ -76,6 +77,15 @@ results/phase1_masks_100/
 ```
 
 Use `results/phase1_masks/` for the main report unless there is a reason to discuss the earlier 100-case run separately.
+
+Brain Tumor note: the local Brain Tumor dataset does not contain expert segmentation masks. The completed Brain Tumor U-Net Phase 1 run therefore reports `dice=NaN` and `iou=NaN` by design; use it as a generated-label run, not as GT mask validation.
+
+Currently available Brain Tumor Phase 1 shortcut result:
+
+| File | Dataset | Method | Cases | Dice/IoU status |
+|---|---|---|---:|---|
+| `E074_brain_tumor_unet_summary.csv` | Brain Tumor | U-Net transferred from BraTS | 7200 | `NaN` because no GT masks exist |
+| `E074_brain_tumor_unet_percase.csv` | Brain Tumor | U-Net transferred from BraTS | 7200 | `NaN` because no GT masks exist |
 
 ### Phase 1 configs
 
@@ -144,6 +154,10 @@ Currently available:
 | `T043_busi_unet_yolo26x-seg.csv` | BUSI | U-Net | YOLOv26x-seg | Ready |
 | `T044_brats_guided_unet_yolo11x-seg.csv` | BraTS | Guided U-Net | YOLOv11x-seg | Ready |
 | `T045_brats_guided_unet_yolo26x-seg.csv` | BraTS | Guided U-Net | YOLOv26x-seg | Ready |
+| `T046_brats_unet_yolo11x-seg.csv` | BraTS | U-Net | YOLOv11x-seg | Ready |
+| `T047_brats_unet_yolo26x-seg.csv` | BraTS | U-Net | YOLOv26x-seg | Ready |
+| `T048_brain_tumor_unet_yolo11x-seg.csv` | Brain Tumor | U-Net | YOLOv11x-seg | Ready |
+| `T049_brain_tumor_unet_yolo26x-seg.csv` | Brain Tumor | U-Net | YOLOv26x-seg | Ready |
 
 Each file has:
 
@@ -159,21 +173,18 @@ For the report:
 
 ## Data That Is Not Yet Ready
 
-### BraTS UNet Phase 2 YOLO runs
+### Local YOLO run folders
 
-The following BraTS Phase 2 runs are not ready in `results/phase2_yolo/` yet:
+Compact report-ready CSVs exist for BUSI, BraTS, and the Brain Tumor U-Net shortcut in `results/phase2_yolo/`. The heavier Ultralytics run folders are local-only and should not be pushed.
 
-| Expected run | Dataset | Method | Model | Current status |
-|---|---|---|---|---|
-| `T046_brats_unet_yolo11x-seg.csv` | BraTS | U-Net | YOLOv11x-seg | Local training run exists; compact CSV still needs to be generated/copied into `results/phase2_yolo/`. |
-| `T047_brats_unet_yolo26x-seg.csv` | BraTS | U-Net | YOLOv26x-seg | Local training run exists; compact CSV still needs to be generated/copied into `results/phase2_yolo/`. |
-
-Local training folders for the BraTS Phase 2 runs are:
+Known local training folders include:
 
 ```text
 runs/segment/results/phase2_yolo/runs/T045_brats_guided_unet_yolo26x-seg
 runs/segment/results/phase2_yolo/runs/T046_brats_unet_yolo11x-seg
 runs/segment/results/phase2_yolo/runs/T047_brats_unet_yolo26x-seg
+runs/segment/results/phase2_yolo/runs/T048_brain_tumor_unet_yolo11x-seg
+runs/segment/results/phase2_yolo/runs/T049_brain_tumor_unet_yolo26x-seg
 ```
 
 The generated YOLO datasets used by these runs are local-only and live at:
@@ -188,6 +199,7 @@ Their dataset YAML files are:
 ```text
 results/phase2_yolo/datasets/brats/guided_unet/dataset.yaml
 results/phase2_yolo/datasets/brats/unet/dataset.yaml
+results/phase2_yolo/datasets/brain_tumor/unet/dataset.yaml
 ```
 
 Use the following commands from the repository root if these results need to be regenerated or finalized locally:
@@ -297,23 +309,35 @@ To watch progress:
 tail -f runs/segment/results/phase2_yolo/runs/T045_brats_guided_unet_yolo26x-seg/results.csv
 ```
 
-### Brain Tumor experiments
+### Brain Tumor Guided U-Net runs
 
-The oncology brief includes Brain Tumor as the third dataset:
+The following Brain Tumor Guided U-Net outputs are not ready yet:
 
-```text
-E064-E075 for Phase 1
-T048-T051 for Phase 2
-```
+| Expected file | Dataset | Method | Current status |
+|---|---|---|---|
+| `E075_brain_tumor_guided_unet_summary.csv` | Brain Tumor | Guided U-Net transferred from BraTS | Not generated yet |
+| `E075_brain_tumor_guided_unet_percase.csv` | Brain Tumor | Guided U-Net transferred from BraTS | Not generated yet |
+| `T050_brain_tumor_guided_unet_yolo11x-seg.csv` | Brain Tumor | Guided U-Net + YOLOv11x-seg | Not generated yet |
+| `T051_brain_tumor_guided_unet_yolo26x-seg.csv` | Brain Tumor | Guided U-Net + YOLOv26x-seg | Not generated yet |
 
-These outputs are not currently ready in the pushed result folders. The report can mention Brain Tumor as planned scope, but should not present it as completed unless those files are generated later.
+The config file `results/configs/E075_brain_tumor_guided_unet.json` is present, but the Phase 1/Phase 2 Guided U-Net result CSVs are not present yet.
 
-Expected future files include:
+### Brain Tumor Phase 1-only method runs
 
-```text
-results/phase1_masks/E064_* through E075_*
-results/phase2_yolo/T048_* through T051_*
-```
+The full oncology brief includes all 12 Brain Tumor Phase 1 methods (`E064-E075`). Only `E074` U-Net is ready. These Phase 1-only Brain Tumor method outputs are not ready yet:
+
+| Expected experiment | Method | Current status |
+|---|---|---|
+| `E064_brain_tumor_otsu_*` | Otsu | Not generated yet |
+| `E065_brain_tumor_multi_otsu_*` | Multi-Otsu | Not generated yet |
+| `E066_brain_tumor_adaptive_*` | Adaptive thresholding | Not generated yet |
+| `E067_brain_tumor_watershed_*` | Watershed | Not generated yet |
+| `E068_brain_tumor_otsu_watershed_*` | Otsu + Watershed | Not generated yet |
+| `E069_brain_tumor_connected_*` | Connected components | Not generated yet |
+| `E070_brain_tumor_random_walker_*` | Random Walker | Not generated yet |
+| `E071_brain_tumor_chan_vese_*` | Chan-Vese | Not generated yet |
+| `E072_brain_tumor_morph_gac_*` | Morphological GAC | Not generated yet |
+| `E073_brain_tumor_sam_*` | SAM | Not generated yet |
 
 ## Local-Only Data Not Intended for GitHub
 
@@ -348,5 +372,5 @@ Use these sources:
 Recommended wording for the current state:
 
 ```text
-BUSI and BraTS Phase 1 mask-generation results are available. U-Net and Guided U-Net training logs are available. Phase 2 YOLO summaries are available for BUSI and for BraTS Guided U-Net. BraTS U-Net YOLO runs are still being trained locally, and Brain Tumor outputs are not yet ready.
+BUSI and BraTS Phase 1 mask-generation results are available. U-Net and Guided U-Net training logs are available. Phase 2 YOLO summaries are available for BUSI and BraTS. For Brain Tumor, the U-Net transferred-from-BraTS shortcut is available for Phase 1 and for YOLOv11/YOLOv26 Phase 2, but Brain Tumor has no GT masks, so Dice/IoU are intentionally reported as NaN. Brain Tumor Guided U-Net and the remaining Brain Tumor Phase 1-only methods are not ready yet.
 ```
