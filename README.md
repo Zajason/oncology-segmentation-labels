@@ -35,6 +35,24 @@ This repository compares classical computer vision, promptable foundation models
 
 Raw datasets, prepared images, model weights, YOLO run folders, and generated polygon-label dumps are intentionally ignored. The repository keeps the code, manifests, compact CSV outputs, and final documents needed to understand and reproduce the experiments.
 
+## Qualitative Examples
+
+These examples show the central data flow visually: input image, expert annotation when available, and automatically generated masks.
+
+### BUSI breast ultrasound
+
+![BUSI qualitative mask comparison](docs/figures/busi_qualitative.png)
+
+### BraTS 2020 brain MRI
+
+![BraTS qualitative mask comparison](docs/figures/brats_qualitative.png)
+
+### Brain Tumor MRI weak-label example
+
+![Brain Tumor weak prompt synthetic labels](docs/figures/brain_tumor_weak_prompt.png)
+
+The Brain Tumor example has no expert mask overlay because the local dataset copy is classification-only. It is included to show the weak-label setting and why those Phase 1 Dice/IoU values are intentionally `NaN`.
+
 ## Methodology
 
 The pipeline has two main phases.
