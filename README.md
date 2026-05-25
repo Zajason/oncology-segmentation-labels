@@ -295,3 +295,7 @@ Compact YOLO summaries are stored in `results/phase2_yolo/`.
 
 - Final report: [`docs/report.pdf`](docs/report.pdf)
 - Presentation: [`docs/oncology-presentation.pptx`](docs/oncology-presentation.pptx)
+
+## Account Note
+
+Some commits may appear under `ntua-el23408`, which is my academic GitHub account. That work is also mine.
