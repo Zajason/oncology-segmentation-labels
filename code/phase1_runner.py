@@ -79,6 +79,7 @@ def load_gt_mask(path):
 
 
 def row_boxes(row, image, gt_mask):
+    """Resolve instance boxes from YOLO labels, GT masks, or explicit columns."""
     height, width = image.shape[:2]
 
     if row.get("boxes_path"):
@@ -94,6 +95,7 @@ def row_boxes(row, image, gt_mask):
 
 
 def combine_instance_masks(masks, shape):
+    """Collapse per-instance masks into one foreground mask for Dice/IoU."""
     combined = np.zeros(shape, dtype=np.uint8)
 
     for mask in masks:
@@ -124,6 +126,8 @@ def main():
         gt_mask = load_gt_mask(row.get("mask_path", ""))
         boxes = row_boxes(row, image, gt_mask)
 
+        # Every segmentation module exposes the same generate_masks interface,
+        # which keeps the experiment runner independent of method internals.
         start = time.perf_counter()
         masks = method_module.generate_masks(image, boxes, config)
         runtime_s = time.perf_counter() - start

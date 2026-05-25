@@ -1,2 +1,0 @@
-dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
-brats,chan_vese,100,0.779837,0.235166,0.680668,0.218517,2.660367

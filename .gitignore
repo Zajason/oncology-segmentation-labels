@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ipynb_checkpoints/
+.DS_Store
 
 # Local env/config
 .venv/
@@ -32,6 +33,8 @@ manifests/prepared/
 
 # Heavy generated labels/datasets/results
 results/polygon_labels/
+results/polygon_labels_100/
+results/phase1_masks_100/
 results/phase2_yolo/datasets/
 results/phase2_yolo/runs/
 results/phase2_yolo/**/weights/

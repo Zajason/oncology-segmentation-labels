@@ -13,6 +13,7 @@ from skimage.morphology import remove_small_objects
 
 
 def to_uint8_gray(image):
+    """Convert any image-like array to contrast-normalized uint8 grayscale."""
     if image.ndim == 3:
         if image.shape[2] >= 3:
             gray = cv2.cvtColor(image[:, :, :3], cv2.COLOR_RGB2GRAY)
@@ -81,6 +82,7 @@ def clean_binary(mask, min_size=16):
 
 
 def select_instance_component(mask, prefer_center=True):
+    """Keep the most plausible single instance from a crop-level binary mask."""
     mask = clean_binary(mask)
     labels = label(mask)
     props = regionprops(labels)
@@ -127,6 +129,7 @@ def paste_crop_mask(mask_full_shape, crop_mask, crop_box_coords):
 
 
 def generate_by_crop(image, boxes, config, crop_segmenter):
+    """Apply a crop-level segmenter to each box and paste masks back full-size."""
     image = np.asarray(image)
     height, width = image.shape[:2]
     pad = int(config.get("pad", 0))
@@ -200,6 +203,7 @@ def dice_iou(pred, gt):
 
 
 def masks_to_polygons(masks, min_area=5, class_id=0):
+    """Convert binary instance masks to YOLO segmentation polygon contours."""
     labels = []
 
     for mask in masks:

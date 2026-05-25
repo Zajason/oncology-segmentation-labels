@@ -55,6 +55,15 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
+def repo_path(path):
+    """Store manifest paths relative to the repository when possible."""
+    path = Path(path)
+    try:
+        return str(path.resolve().relative_to(BASE_DIR))
+    except ValueError:
+        return str(path)
+
+
 def write_sample(path, rows, sample_size):
     if sample_size <= 0:
         return
@@ -126,8 +135,8 @@ def build_busi_manifest(busi_dir, output_dir, sample_size):
         rows.append(
             {
                 "case_id": case_id,
-                "image_path": str(image_path.resolve()),
-                "mask_path": str(prepared_mask_path.resolve()),
+                "image_path": repo_path(image_path),
+                "mask_path": repo_path(prepared_mask_path),
                 "boxes_path": "",
             }
         )
@@ -192,8 +201,8 @@ def build_brats_manifest(brats_dir, metadata_path, output_dir, sample_size, limi
         rows.append(
             {
                 "case_id": case_id,
-                "image_path": str(image_path.resolve()),
-                "mask_path": str(mask_path.resolve()),
+                "image_path": repo_path(image_path),
+                "mask_path": repo_path(mask_path),
                 "boxes_path": "",
             }
         )
@@ -235,9 +244,9 @@ def build_brain_tumor_manifest(brain_tumor_dir, output_dir, sample_size):
             rows.append(
                 {
                     "case_id": case_id,
-                    "image_path": str(image_path.resolve()),
+                    "image_path": repo_path(image_path),
                     "mask_path": "",
-                    "boxes_path": str(boxes_path.resolve()),
+                    "boxes_path": repo_path(boxes_path),
                 }
             )
 

@@ -1,2 +1,0 @@
-dataset,method,n_cases,dice_mean,dice_std,iou_mean,iou_std,runtime_total_s
-brats,morph_gac,100,0.718226,0.157240,0.578379,0.150076,7.396628
