@@ -1,12 +1,41 @@
 # Synthetic Oncology Segmentation Labels
 
-Automated mask generation and YOLO segmentation-label synthesis for public oncology imaging datasets.
+Research-style medical AI pipeline for turning weak localization annotations into synthetic instance-segmentation masks, YOLO polygon labels, and downstream YOLO segmentation models.
 
-This repository compares classical computer vision, promptable foundation models, and learned medical segmentation networks for turning oncology images into segmentation masks and YOLO polygon labels. The project asks a practical question: can automatically generated masks reduce the amount of manual expert annotation needed to train segmentation models?
+Manual medical image segmentation is expensive and slow. This project tests whether box-guided synthetic masks can reduce the need for expert pixel-level labels while still producing useful segmentation models. It compares classical computer vision, promptable foundation models, and learned medical segmentation networks across three oncology imaging datasets.
+
+## Results at a Glance
+
+| Dataset | Best mask generator | Dice | IoU | Best downstream YOLO setup | Mask mAP50 | Mask mAP50-95 |
+|---|---|---:|---:|---|---:|---:|
+| BUSI breast ultrasound | U-Net | 0.9517 | 0.9089 | YOLOv11x-seg on Guided U-Net labels | 0.8736 | 0.6881 |
+| BraTS 2020 brain MRI | Guided U-Net | 0.9195 | 0.8555 | YOLOv11x-seg on Guided U-Net labels | 0.6172 | 0.3863 |
+| Brain Tumor MRI | U-Net-generated labels | N/A | N/A | YOLOv11x-seg on U-Net labels | 0.7571 | 0.5809 |
+
+## Why This Matters
+
+- Pixel-level oncology annotation requires expert time and is costly to scale.
+- Many public datasets include masks or boxes, but not always full instance segmentation labels.
+- This project evaluates whether weak localization can be converted into usable masks and YOLO labels.
+- The downstream YOLO experiments test generated labels by training actual segmentation models, not just by reporting overlap scores.
+
+## Pipeline
+
+```mermaid
+flowchart LR
+    A["Oncology image"] --> B["Weak localization / bbox"]
+    B --> C["12 mask-generation methods"]
+    C --> D["Synthetic instance masks"]
+    D --> E["Dice / IoU evaluation"]
+    D --> F["cv2.findContours"]
+    F --> G["YOLO polygon labels"]
+    G --> H["YOLOv11 / YOLOv26 training"]
+    H --> I["Box mAP + Mask mAP"]
+```
 
 ## Highlights
 
-- **3 oncology datasets**: BUSI breast ultrasound, BraTS 2020 brain MRI, and a Brain Tumor MRI classification dataset.
+- **3 oncology datasets**: BUSI breast ultrasound, BraTS 2020 brain MRI, and Brain Tumor MRI.
 - **12 mask-generation methods**: thresholding, watershed, connected components, random walker, active contours, SAM, U-Net, and Guided U-Net.
 - **2 evaluation levels**:
   - Phase 1 evaluates generated masks with Dice and IoU.
@@ -16,12 +45,20 @@ This repository compares classical computer vision, promptable foundation models
 - **Best strict BUSI downstream YOLO mask score**: YOLOv11x-seg trained on Guided U-Net labels, **0.8736 M_mAP50 / 0.6881 M_mAP50-95**.
 - **Best BraTS downstream YOLO mask score**: YOLOv11x-seg trained on Guided U-Net labels, **0.6172 M_mAP50 / 0.3863 M_mAP50-95**.
 
+## Important Methodology Note
+
+This is a **box-to-mask refinement project**, not a full lesion-detection project.
+
+For BUSI and BraTS, bounding boxes are derived from expert masks to simulate weak localization annotations. The mask-generation methods receive only the image and the bounding box. They do **not** receive the expert mask during mask generation. Dice and IoU are computed afterward for evaluation.
+
+For Brain Tumor MRI, the local dataset copy has no expert segmentation masks, so Phase 1 Dice/IoU are intentionally reported as `NaN`. Its value is in generated-label and downstream YOLO experiments.
+
 ## Repository Layout
 
 ```text
 .
 ├── code/                  # Experiment runners, mask generators, training scripts
-├── docs/                  # Final report and presentation
+├── docs/                  # Final report, presentation, figures, method cards
 ├── evaluation/            # Exploratory method-selection CSVs
 ├── manifests/             # Dataset manifests and small samples
 ├── results/
@@ -29,6 +66,7 @@ This repository compares classical computer vision, promptable foundation models
 │   ├── phase1_masks/      # Main Phase 1 per-case and summary CSVs
 │   ├── phase1d_training/  # U-Net and Guided U-Net training logs
 │   └── phase2_yolo/       # Compact YOLO summary CSVs
+├── scripts/               # Convenience commands for demos and batch runs
 ├── requirements.txt
 └── setup_ubuntu.sh
 ```
@@ -108,8 +146,6 @@ Since this project is about segmentation, mask mAP is the most important YOLO me
 | BraTS 2020 | Brain MRI slices | Direct mask evaluation and YOLO training | Yes |
 | Brain Tumor MRI | Brain MRI classification folders | Synthetic-label and downstream YOLO experiments | No local segmentation masks |
 
-The Brain Tumor dataset has no expert segmentation masks in the local copy, so Phase 1 Dice and IoU are reported as `NaN` by design. Those runs are still useful for generated-label and downstream YOLO experiments.
-
 ## Compared Mask Generators
 
 | Family | Methods | Why included |
@@ -119,6 +155,8 @@ The Brain Tumor dataset has no expert segmentation masks in the local copy, so P
 | Active contours | Chan-Vese, Morphological GAC | Boundary/region-evolution baselines |
 | Foundation model | SAM | Strong box-prompted pretrained segmentation baseline |
 | Learned medical models | U-Net, Guided U-Net | Supervised biomedical segmentation baselines |
+
+Short method cards are available in [`docs/method_cards/`](docs/method_cards/).
 
 ## Main Phase 1 Results
 
@@ -182,6 +220,34 @@ BraTS is more favorable to classical methods than BUSI because MRI tumor regions
 
 The downstream YOLO experiments show that high-quality generated labels can train usable segmentation models. The Brain Tumor results should be interpreted more carefully because direct expert segmentation masks are not available locally for Phase 1 validation.
 
+## Quick Demo
+
+The fastest local sanity check is a CPU-only classical method on a small manifest:
+
+```bash
+bash scripts/demo_busi_morph_gac.sh
+```
+
+Equivalent explicit command:
+
+```bash
+python code/build_manifests.py --sample-size 10 --brats-limit 10
+python code/phase1_runner.py \
+  --manifest manifests/busi_sample.csv \
+  --dataset busi \
+  --method morph_gac \
+  --experiment-id demo \
+  --write-polygons
+```
+
+Expected outputs:
+
+```text
+results/phase1_masks/demo_busi_morph_gac_percase.csv
+results/phase1_masks/demo_busi_morph_gac_summary.csv
+results/polygon_labels/busi/morph_gac/*.txt
+```
+
 ## Installation
 
 Create a Python environment and install the core dependencies:
@@ -207,7 +273,7 @@ data/
 ├── Dataset_BUSI_with_GT/
 ├── archive (1)/BraTS2020_training_data/
 ├── archive (1)/BraTS20 Training Metadata.csv
-└── brain_tumor/archive(1)/
+└── brain_tumor_mri_dataset/
 ```
 
 Then build manifests:
@@ -216,7 +282,7 @@ Then build manifests:
 python code/build_manifests.py
 ```
 
-The manifest builder writes repo-relative paths and generated prepared assets under `manifests/prepared/`, which is ignored by Git.
+The manifest builder writes generated prepared assets under `manifests/prepared/`, which is ignored by Git.
 
 ## Reproduce Phase 1
 
@@ -277,6 +343,16 @@ python code/train_yolo_phase2.py --help
 
 Compact YOLO summaries are stored in `results/phase2_yolo/`.
 
+## Reproducibility Checks
+
+Compile-check the Python code:
+
+```bash
+bash scripts/compile_check.sh
+```
+
+The same check runs in GitHub Actions on push and pull request.
+
 ## Key Takeaways
 
 1. Supervised learned methods produced the best masks when ground-truth masks were available.
@@ -287,8 +363,10 @@ Compact YOLO summaries are stored in `results/phase2_yolo/`.
 
 ## Limitations
 
+- This is a box-guided segmentation-label generation project, not an autonomous clinical detector.
+- For BUSI and BraTS, boxes are derived from GT masks to simulate weak localization annotations.
 - Brain Tumor Phase 1 cannot report Dice/IoU because the local dataset does not include expert segmentation masks.
-- SAM, U-Net, and YOLO experiments depend on external checkpoints, GPU availability, and optional packages.
+- SAM, U-Net, Guided U-Net, and YOLO experiments depend on external checkpoints, GPU availability, and optional packages.
 - Medical segmentation metrics measure overlap, not clinical validity. High Dice or mAP should not be interpreted as clinical readiness.
 
 ## Documents
